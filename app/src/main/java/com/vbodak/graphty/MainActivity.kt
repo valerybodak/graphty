@@ -28,6 +28,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getValues(): List<Int>{
-        return listOf(3, 46, 21, 60, 51, 99, 8)
+        return listOf(1, 46, 21, 60, 51, 99, 8)
     }
 }

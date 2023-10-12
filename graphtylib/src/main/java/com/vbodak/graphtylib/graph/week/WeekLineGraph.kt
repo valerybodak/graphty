@@ -29,13 +29,12 @@ class WeekLineGraph @JvmOverloads constructor(
     }
 
     data class Params(
-        val startWeekday: Int = Calendar.MONDAY
+        val startWeekday: Int = Calendar.MONDAY,
+        val weekdaysHeightPx: Float = 48F
     )
 
     private var params: Params = Params()
     private var values: List<Int> = emptyList()
-
-    val dateContainerHeight = 40F
 
     fun displayValues(params: Params, values: List<Int>){
         this.params = params
@@ -46,6 +45,7 @@ class WeekLineGraph @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         if (values.isNotEmpty()) {
             drawLine(canvas)
+            drawWeekdays(canvas)
 
             /*drawDivisions(canvas)
             drawDottedLines(canvas)
@@ -98,6 +98,74 @@ class WeekLineGraph @JvmOverloads constructor(
 
     }
 
+    private fun drawWeekdays(canvas: Canvas) {
+        val divisionWidth = width / 7
+        for (index in values.indices) {
+            val item = values[index]
+
+            val divisionLeft = index * divisionWidth
+
+            if (true) {
+
+                //We need to draw subtitle1 firstly because we align other titles along it
+                /*val textPaintDateSubtitle1 = getTextDateSubtitle1Paint()
+
+                val textBoundDateSubtitle1 = Rect()
+                val dateSubtitle1 = item.dateAppearance!!.subtitle1
+                textPaintDateSubtitle1.getTextBounds(
+                    dateSubtitle1,
+                    0,
+                    dateSubtitle1.length,
+                    textBoundDateSubtitle1
+                )
+
+                var dateSubtitle1Top: Float
+                if (item.dateAppearance!!.hasSubtitle2()) {
+                    dateSubtitle1Top =
+                        height - (dateContainerHeight / 2) + (textBoundDateSubtitle1.height() / 2)
+                } else {
+                    dateSubtitle1Top =
+                        height - dateContainerHeight / 2 + textBoundDateSubtitle1.height()
+                }
+                val dateSubtitle1Left =
+                    divisionLeft + (divisionWidth / 2) - (textBoundDateSubtitle1.width() / 2)
+
+                canvas.drawText(
+                    dateSubtitle1,
+                    dateSubtitle1Left,
+                    dateSubtitle1Top,
+                    textPaintDateSubtitle1
+                )*/
+
+                //Drawing title
+                val textPaintDateTitle = getTextDateTitlePaint()
+
+                val textBoundDateTitle = Rect()
+                val dateTitle = "N"
+                textPaintDateTitle.getTextBounds(dateTitle, 0, dateTitle.length, textBoundDateTitle)
+
+                val dateTitleTop = height - (params.weekdaysHeightPx / 2)
+                val dateTitleLeft =
+                    divisionLeft + (divisionWidth / 2) - (textBoundDateTitle.width() / 2)
+
+                canvas.drawText(
+                    dateTitle,
+                    dateTitleLeft.toFloat(),
+                    dateTitleTop,
+                    textPaintDateTitle
+                )
+            }
+        }
+    }
+
+    private fun getTextDateTitlePaint(): Paint {
+        val paint = TextPaint()
+        paint.isAntiAlias = true
+        paint.textSize = 40F
+        paint.color = getColor(android.R.color.holo_red_light)
+        return paint
+    }
+
     private fun getGraphHeight(): Float {
         return getGraphBottom() - getGraphTop()
     }
@@ -110,7 +178,7 @@ class WeekLineGraph @JvmOverloads constructor(
     //**
     // Graph's bottom is the last top dotted line (it is not(!) bottom of view)
     private fun getGraphBottom(): Float {
-        return height - dateContainerHeight - (getScaleValueTextHeight(context) / 2F)
+        return height - params.weekdaysHeightPx - (getScaleValueTextHeight(context) / 2F)
     }
 
     fun getScaleValueTextHeight(context: Context): Int {
