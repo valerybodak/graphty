@@ -23,6 +23,8 @@ implementation 'com.github.valerybodak:Graphty:1.0.0'
 
 ### 1. WeekLineGraph
 
+<img src="[https://user-images.githubusercontent.com/26433088/201077882-bccf4433-b934-4f79-8f11-697916c54e2f.jpg](https://github.com/valerybodak/graphty/assets/26433088/3f542867-da11-47b8-84d6-aef28068ddf4)" width="30%"></img>
+
 ```Kotlin
 <com.vbodak.graphtylib.graph.week.WeekLineGraph
         android:id="@+id/weekLineGraph"
