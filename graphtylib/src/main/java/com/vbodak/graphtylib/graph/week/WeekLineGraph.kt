@@ -104,22 +104,22 @@ class WeekLineGraph @JvmOverloads constructor(
             val divisionLeft = index * divisionWidth
 
             if (true) {
-                val textPaintDateTitle = getWeekdayPaint()
+                val textWeekday = getWeekdayPaint()
 
-                val textBoundDateTitle = Rect()
-                val dateTitle = "N"
-                textPaintDateTitle.getTextBounds(dateTitle, 0, dateTitle.length, textBoundDateTitle)
+                val textBoundWeekday = Rect()
+                val weekdayTitle = "N"
+                textWeekday.getTextBounds(weekdayTitle, 0, weekdayTitle.length, textBoundWeekday)
 
-                val dateTitleTop = height - (params.weekdaysHeightPx / 2) + (textBoundDateTitle.height() / 2)
-                
-                val dateTitleLeft =
-                    divisionLeft + (divisionWidth / 2) - (textBoundDateTitle.width() / 2)
+                val weekdayTop = height - (params.weekdaysHeightPx / 2) + (textBoundWeekday.height() / 2)
+
+                val weekdayLeft =
+                    divisionLeft + (divisionWidth / 2) - (textBoundWeekday.width() / 2)
 
                 canvas.drawText(
-                    dateTitle,
-                    dateTitleLeft.toFloat(),
-                    dateTitleTop,
-                    textPaintDateTitle
+                    weekdayTitle,
+                    weekdayLeft.toFloat(),
+                    weekdayTop,
+                    textWeekday
                 )
             }
         }
