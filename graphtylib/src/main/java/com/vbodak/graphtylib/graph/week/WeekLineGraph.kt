@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.Rect
+import android.graphics.RectF
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
@@ -20,13 +21,14 @@ enum class NodesMode {
 data class Params(
     val minValue: Int = CommonConst.UNDEFINED,
     val maxValue: Int = CommonConst.UNDEFINED,
+    val enableDivisions: Boolean = true,
     val lineWidth: Float = 5F,
     val valueScaleWidthPx: Float = 100F,
-    val valueTextSize: Float = 40F,
+    val valueTextSize: Float = 36F,
     val weekdayStart: Int = Calendar.MONDAY,
     val weekdayNameMap: Map<Int, String> = emptyMap(),
-    val weekdayScaleHeightPx: Float = 60F,
-    val weekdayTextSize: Float = 40F,
+    val weekdayScaleHeightPx: Float = 70F,
+    val weekdayTextSize: Float = 36F,
     val nodesMode: NodesMode = NodesMode.ALL,
     val nodeRadiusPx: Float = 14F,
     @ColorRes
@@ -59,6 +61,9 @@ class WeekLineGraph @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         if (values.isNotEmpty()) {
+            if(params.enableDivisions){
+                drawDivisions(canvas)
+            }
             drawLine(canvas)
             drawValues(canvas)
             drawWeekdays(canvas)
@@ -72,6 +77,24 @@ class WeekLineGraph @JvmOverloads constructor(
             drawPulseGraph(canvas)
             drawPulseGraphNodes(canvas)
             drawDates(canvas)*/
+        }
+    }
+
+    private fun drawDivisions(canvas: Canvas) {
+        val divisionWidth = getVerticalDivisionWidth()
+        for (index in values.indices) {
+            if (index % 2 != 0) {
+                val itemPaint = Paint()
+                itemPaint.style = Paint.Style.FILL
+                itemPaint.color = getColor(android.R.color.darker_gray)
+
+                val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
+                val divisionRight = divisionLeft + divisionWidth
+
+                val rect =
+                    RectF(divisionLeft, 0F, divisionRight, height.toFloat())
+                canvas.drawRect(rect, itemPaint)
+            }
         }
     }
 
