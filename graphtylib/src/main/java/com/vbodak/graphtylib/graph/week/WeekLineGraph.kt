@@ -192,8 +192,8 @@ class WeekLineGraph @JvmOverloads constructor(
         //textPaint.typeface = customFont
         textPaint.isAntiAlias = true
         //textPaint.textSize = spToPx(context, R.dimen.dual_graph_scale_values_text_size)
-        textPaint.textSize = 12F
-        textPaint.color = Color.BLACK
+        textPaint.textSize = params.valueTextSize
+        textPaint.color = getColor(params.valueTextColor)
         return textPaint
     }
 
