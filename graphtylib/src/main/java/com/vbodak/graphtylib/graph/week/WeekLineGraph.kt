@@ -64,18 +64,14 @@ class WeekLineGraph @JvmOverloads constructor(
         var prevX = UNDEFINED
         var prevY = UNDEFINED
         val divisionWidth = width / WEEKDAYS_NUMBER
-        //val lineStrokeWidth = 20
-        //val lineStrokeWidth = dpToPx(R.dimen.dual_graph_pulse_line_stroke_width)
         for (index in values.indices) {
             val item = values[index]
-            //val pulseValue = item.pulse
 
             val divisionLeft = index * divisionWidth
 
             val currentX =
                 divisionLeft + (divisionWidth / 2F)
 
-            //var currentY = getGraphTop()
             var currentY = getGraphTop()
             if (item > 0 && item < MAX_SCALE_VALUE) {
                 currentY =
@@ -87,7 +83,6 @@ class WeekLineGraph @JvmOverloads constructor(
                 prevX = currentX
                 prevY = currentY
             } else {
-                //draw line without gaps
                 canvas.drawLine(prevX, prevY, currentX, currentY, linePaint)
 
                 prevX = currentX
@@ -102,29 +97,24 @@ class WeekLineGraph @JvmOverloads constructor(
         val divisionWidth = width / WEEKDAYS_NUMBER
         val weekdayTitles = getWeekdayTitleList()
         for (index in values.indices) {
-            val item = values[index]
-
             val divisionLeft = index * divisionWidth
 
-            if (true) {
-                val textWeekday = getWeekdayPaint()
+            val textWeekday = getWeekdayPaint()
+            val textBoundWeekday = Rect()
+            val weekdayTitle = weekdayTitles.get(index)
+            textWeekday.getTextBounds(weekdayTitle, 0, weekdayTitle.length, textBoundWeekday)
 
-                val textBoundWeekday = Rect()
-                val weekdayTitle = weekdayTitles.get(index)
-                textWeekday.getTextBounds(weekdayTitle, 0, weekdayTitle.length, textBoundWeekday)
+            val weekdayTop = height - (params.weekdaysHeightPx / 2) + (textBoundWeekday.height() / 2)
 
-                val weekdayTop = height - (params.weekdaysHeightPx / 2) + (textBoundWeekday.height() / 2)
+            val weekdayLeft =
+                divisionLeft + (divisionWidth / 2) - (textBoundWeekday.width() / 2)
 
-                val weekdayLeft =
-                    divisionLeft + (divisionWidth / 2) - (textBoundWeekday.width() / 2)
-
-                canvas.drawText(
-                    weekdayTitle,
-                    weekdayLeft.toFloat(),
-                    weekdayTop,
-                    textWeekday
-                )
-            }
+            canvas.drawText(
+                weekdayTitle,
+                weekdayLeft.toFloat(),
+                weekdayTop,
+                textWeekday
+            )
         }
     }
 
@@ -161,14 +151,17 @@ class WeekLineGraph @JvmOverloads constructor(
         return getGraphBottom() - getGraphTop()
     }
 
-    //**
-    // Graph's top is the first top dotted line (it is not(!) top of view)
+
+    /**
+     * Graph's top is the first top dotted line (it is not(!) top of view)
+     */
     private fun getGraphTop(): Float {
         return (getScaleValueTextHeight(context) / 2F)
     }
 
-    //**
-    // Graph's bottom is the last top dotted line (it is not(!) bottom of view)
+    /**
+     * Graph's bottom is the last top dotted line (it is not(!) bottom of view)
+     */
     private fun getGraphBottom(): Float {
         return height - params.weekdaysHeightPx - (getScaleValueTextHeight(context) / 2F)
     }
