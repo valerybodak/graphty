@@ -10,7 +10,26 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import com.vbodak.graphtylib.common.CommonConst
 import java.util.*
+
+data class Params(
+    val minValue: Int = CommonConst.UNDEFINED,
+    val maxValue: Int = CommonConst.UNDEFINED,
+    val lineWidth: Float = 5F,
+    val valueScaleWidthPx: Float = 100F,
+    val valueTextSize: Float = 40F,
+    val weekdayStart: Int = Calendar.MONDAY,
+    val weekdayNameMap: Map<Int, String> = emptyMap(),
+    val weekdayScaleHeightPx: Float = 60F,
+    val weekdayTextSize: Float = 40F,
+    @ColorRes
+    val lineColor: Int = android.R.color.black,
+    @ColorRes
+    val weekdayTextColor: Int = android.R.color.black,
+    @ColorRes
+    val valueTextColor: Int = android.R.color.black,
+)
 
 class WeekLineGraph @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
@@ -18,27 +37,8 @@ class WeekLineGraph @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     companion object {
-        private const val UNDEFINED = -1
         private const val WEEKDAYS_NUMBER = 7
     }
-
-    data class Params(
-        val minValue: Int = UNDEFINED,
-        val maxValue: Int = UNDEFINED,
-        val lineWidth: Float = 5F,
-        val valueScaleWidthPx: Float = 100F,
-        val valueTextSize: Float = 40F,
-        val weekdayStart: Int = Calendar.MONDAY,
-        val weekdayNameMap: Map<Int, String> = emptyMap(),
-        val weekdayScaleHeightPx: Float = 60F,
-        val weekdayTextSize: Float = 40F,
-        @ColorRes
-        val lineColor: Int = android.R.color.black,
-        @ColorRes
-        val weekdayTextColor: Int = android.R.color.black,
-        @ColorRes
-        val valueTextColor: Int = android.R.color.black,
-    )
 
     private var params: Params = Params()
     private var values: List<Int> = emptyList()
@@ -67,8 +67,8 @@ class WeekLineGraph @JvmOverloads constructor(
     private fun drawLine(canvas: Canvas) {
         val divisionWidth = getVerticalDivisionWidth()
         val linePaint = getLinePaint()
-        var prevX = UNDEFINED.toFloat()
-        var prevY = UNDEFINED.toFloat()
+        var prevX = CommonConst.UNDEFINED.toFloat()
+        var prevY = CommonConst.UNDEFINED.toFloat()
         for (index in 0 until WEEKDAYS_NUMBER) {
             val item = if(values.size <= index) 0 else values[index]
 
@@ -83,7 +83,7 @@ class WeekLineGraph @JvmOverloads constructor(
                     getGraphBottom() - (getGraphHeight() / (params.maxValue / item.toFloat()))
             }
 
-            if (prevX == UNDEFINED.toFloat() && prevY == UNDEFINED.toFloat()) {
+            if (prevX == CommonConst.UNDEFINED.toFloat() && prevY == CommonConst.UNDEFINED.toFloat()) {
                 //the first point
                 prevX = currentX
                 prevY = currentY
@@ -97,8 +97,8 @@ class WeekLineGraph @JvmOverloads constructor(
     }
 
     private fun drawValues(canvas: Canvas) {
-        val minValue = if (params.minValue != UNDEFINED) params.minValue else values.min()
-        val maxValue = if (params.maxValue != UNDEFINED) params.maxValue else values.max()
+        val minValue = if (params.minValue != CommonConst.UNDEFINED) params.minValue else values.min()
+        val maxValue = if (params.maxValue != CommonConst.UNDEFINED) params.maxValue else values.max()
         val midValue = (maxValue - minValue) / 2
 
         //draw max value

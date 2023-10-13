@@ -3,6 +3,7 @@ package com.vbodak.graphty
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.vbodak.graphty.databinding.ActivityMainBinding
+import com.vbodak.graphtylib.graph.week.Params
 import com.vbodak.graphtylib.graph.week.WeekLineGraph
 import java.util.Calendar
 
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupGraph() {
         binding.weekLineGraph.displayValues(
-            params = WeekLineGraph.Params(
+            params = Params(
                 minValue = 0,
                 maxValue = 100,
                 weekdayStart = Calendar.SUNDAY,
@@ -39,6 +40,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getValues(): List<Int>{
-        return listOf(50, 0, 50, 51, 40, 38, 37)
+        return listOf(50, 31, 87, 51, 40, 0, 37)
     }
 }
