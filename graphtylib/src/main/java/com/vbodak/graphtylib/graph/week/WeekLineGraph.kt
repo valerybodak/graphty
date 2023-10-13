@@ -24,7 +24,7 @@ data class Params(
      * Max value to display on scale
      */
     val maxValue: Int = CommonConst.UNDEFINED,
-    val enableGuidelines: Boolean = false,
+    val enableGuidelines: Boolean = true,
     val lineWidth: Float = 5F,
     @ColorRes
     val lineColor: Int = android.R.color.black,
