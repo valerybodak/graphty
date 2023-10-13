@@ -22,18 +22,19 @@ class WeekLineGraph @JvmOverloads constructor(
     companion object {
         private const val UNDEFINED = -1F
         private const val WEEKDAYS_NUMBER = 7
+        //private const val VALUE_SCALE_NUMBER = 3
     }
 
     data class Params(
         val minValue: Int = 0,
         val maxValue: Int = 100,
-        val valueWidthPx: Float = 100F,
+        val valueScaleWidthPx: Float = 100F,
         val valueTextSize: Float = 40F,
         @ColorRes
         val valueTextColor: Int = android.R.color.black,
         val weekdayStart: Int = Calendar.MONDAY,
         val weekdayNameMap: Map<Int, String> = emptyMap(),
-        val weekdayHeightPx: Float = 60F,
+        val weekdayScaleHeightPx: Float = 60F,
         val weekdayTextSize: Float = 40F,
         @ColorRes
         val weekdayTextColor: Int = android.R.color.black
@@ -51,6 +52,7 @@ class WeekLineGraph @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         if (values.isNotEmpty()) {
             drawLine(canvas)
+            drawValues(canvas)
             drawWeekdays(canvas)
 
             /*drawDivisions(canvas)
@@ -63,16 +65,14 @@ class WeekLineGraph @JvmOverloads constructor(
     }
 
     private fun drawLine(canvas: Canvas) {
-
+        val divisionWidth = getVerticalDivisionWidth()
         val linePaint = getLinePaint()
-
         var prevX = UNDEFINED
         var prevY = UNDEFINED
-        val divisionWidth = width / WEEKDAYS_NUMBER
         for (index in values.indices) {
             val item = values[index]
 
-            val divisionLeft = index * divisionWidth
+            val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
             val currentX =
                 divisionLeft + (divisionWidth / 2F)
@@ -93,23 +93,25 @@ class WeekLineGraph @JvmOverloads constructor(
                 prevX = currentX
                 prevY = currentY
             }
-
         }
+    }
+
+    private fun drawValues(canvas: Canvas){
 
     }
 
     private fun drawWeekdays(canvas: Canvas) {
-        val divisionWidth = width / WEEKDAYS_NUMBER
+        val divisionWidth = getVerticalDivisionWidth()
         val weekdayTitles = getWeekdayTitleList()
         for (index in values.indices) {
-            val divisionLeft = index * divisionWidth
+            val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
             val textWeekday = getWeekdayPaint()
             val textBoundWeekday = Rect()
             val weekdayTitle = weekdayTitles.get(index)
             textWeekday.getTextBounds(weekdayTitle, 0, weekdayTitle.length, textBoundWeekday)
 
-            val weekdayTop = height - (params.weekdayHeightPx / 2) + (textBoundWeekday.height() / 2)
+            val weekdayTop = height - (params.weekdayScaleHeightPx / 2) + (textBoundWeekday.height() / 2)
 
             val weekdayLeft =
                 divisionLeft + (divisionWidth / 2) - (textBoundWeekday.width() / 2)
@@ -152,10 +154,13 @@ class WeekLineGraph @JvmOverloads constructor(
         return paint
     }
 
+    private fun getVerticalDivisionWidth(): Float {
+        return (width - params.valueScaleWidthPx) / WEEKDAYS_NUMBER
+    }
+
     private fun getGraphHeight(): Float {
         return getGraphBottom() - getGraphTop()
     }
-
 
     /**
      * Graph's top is the first top dotted line (it is not(!) top of view)
@@ -168,7 +173,7 @@ class WeekLineGraph @JvmOverloads constructor(
      * Graph's bottom is the last top dotted line (it is not(!) bottom of view)
      */
     private fun getGraphBottom(): Float {
-        return height - params.weekdayHeightPx - (getScaleValueTextHeight(context) / 2F)
+        return height - params.weekdayScaleHeightPx - (getScaleValueTextHeight(context) / 2F)
     }
 
     fun getScaleValueTextHeight(context: Context): Int {
