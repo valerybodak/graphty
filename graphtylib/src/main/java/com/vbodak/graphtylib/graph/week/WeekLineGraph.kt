@@ -59,8 +59,11 @@ class WeekLineGraph @JvmOverloads constructor(
     private var params: Params = Params()
     private var values: List<Int> = emptyList()
 
-    fun displayValues(params: Params, values: List<Int>) {
+    fun setup(params: Params){
         this.params = params
+    }
+
+    fun draw(values: List<Int>) {
         this.values = values
         invalidate()
     }

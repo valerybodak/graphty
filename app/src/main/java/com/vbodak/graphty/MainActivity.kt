@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.vbodak.graphty.databinding.ActivityMainBinding
 import com.vbodak.graphtylib.graph.week.Params
-import com.vbodak.graphtylib.graph.week.WeekLineGraph
 import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
@@ -17,10 +16,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupGraph()
+        displayGraph()
     }
 
     private fun setupGraph() {
-        binding.weekLineGraph.displayValues(
+        binding.weekLineGraph.setup(
             params = Params(
                 minValue = 10,
                 maxValue = 100,
@@ -34,7 +34,12 @@ class MainActivity : AppCompatActivity() {
                     Calendar.SATURDAY to "S",
                     Calendar.SUNDAY to "S",
                 )
-            ),
+            )
+        )
+    }
+
+    private fun displayGraph(){
+        binding.weekLineGraph.draw(
             values = getValues()
         )
     }
