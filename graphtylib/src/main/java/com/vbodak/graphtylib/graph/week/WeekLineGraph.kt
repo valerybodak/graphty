@@ -8,15 +8,10 @@ import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.Rect
 import android.text.TextPaint
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import com.google.android.material.internal.ViewUtils.dpToPx
-import com.vbodak.graphtylib.R
 import java.util.Calendar
 
 class WeekLineGraph @JvmOverloads constructor(
@@ -30,7 +25,10 @@ class WeekLineGraph @JvmOverloads constructor(
 
     data class Params(
         val startWeekday: Int = Calendar.MONDAY,
-        val weekdaysHeightPx: Float = 48F
+        val weekdaysHeightPx: Float = 60F,
+        val weekdaysTextSize: Float = 40F,
+        @ColorRes
+        val weekdaysTextColor: Int = android.R.color.black
     )
 
     private var params: Params = Params()
@@ -138,13 +136,15 @@ class WeekLineGraph @JvmOverloads constructor(
                 )*/
 
                 //Drawing title
-                val textPaintDateTitle = getTextDateTitlePaint()
+                val textPaintDateTitle = getWeekdayPaint()
 
                 val textBoundDateTitle = Rect()
                 val dateTitle = "N"
                 textPaintDateTitle.getTextBounds(dateTitle, 0, dateTitle.length, textBoundDateTitle)
 
-                val dateTitleTop = height - (params.weekdaysHeightPx / 2)
+                val dateTitleTop = height - (params.weekdaysHeightPx / 2) + (textBoundDateTitle.height() / 2)
+                //val dateTitleTop = dateSubtitle1Top - textBoundDateTitle.height() - dateTextSpacing
+
                 val dateTitleLeft =
                     divisionLeft + (divisionWidth / 2) - (textBoundDateTitle.width() / 2)
 
@@ -158,11 +158,11 @@ class WeekLineGraph @JvmOverloads constructor(
         }
     }
 
-    private fun getTextDateTitlePaint(): Paint {
+    private fun getWeekdayPaint(): Paint {
         val paint = TextPaint()
         paint.isAntiAlias = true
-        paint.textSize = 40F
-        paint.color = getColor(android.R.color.holo_red_light)
+        paint.textSize = params.weekdaysTextSize
+        paint.color = getColor(params.weekdaysTextColor)
         return paint
     }
 
