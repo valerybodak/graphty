@@ -26,25 +26,25 @@ data class Params(
     val maxValue: Int = CommonConst.UNDEFINED,
     val enableGuidelines: Boolean = false,
     val lineWidth: Float = 5F,
-    val guideWidth: Float = 3F,
+    @ColorRes
+    val lineColor: Int = android.R.color.black,
+    val guidelineWidth: Float = 3F,
+    @ColorRes
+    val guidelineColor: Int = android.R.color.darker_gray,
+    val nodesMode: NodesMode = NodesMode.ALL,
+    val nodeRadiusPx: Float = 14F,
+    @ColorRes
+    val nodeFillColor: Int = android.R.color.white,
     val valueScaleWidthPx: Float = 100F,
     val valueTextSize: Float = 36F,
+    @ColorRes
+    val valueTextColor: Int = android.R.color.black,
     val weekdayStart: Int = Calendar.MONDAY,
     val weekdayNameMap: Map<Int, String> = emptyMap(),
     val weekdayScaleHeightPx: Float = 70F,
     val weekdayTextSize: Float = 36F,
-    val nodesMode: NodesMode = NodesMode.ALL,
-    val nodeRadiusPx: Float = 14F,
     @ColorRes
-    val lineColor: Int = android.R.color.black,
-    @ColorRes
-    val guideColor: Int = android.R.color.darker_gray,
-    @ColorRes
-    val nodeFillColor: Int = android.R.color.white,
-    @ColorRes
-    val weekdayTextColor: Int = android.R.color.black,
-    @ColorRes
-    val valueTextColor: Int = android.R.color.black,
+    val weekdayTextColor: Int = android.R.color.black
 )
 
 class WeekLineGraph @JvmOverloads constructor(
@@ -98,10 +98,10 @@ class WeekLineGraph @JvmOverloads constructor(
 
             val p1 = Paint(ANTI_ALIAS_FLAG)
             p1.style = Paint.Style.STROKE
-            p1.strokeWidth = params.guideWidth
+            p1.strokeWidth = params.guidelineWidth
 
             val p2 = Paint(p1)
-            p2.color = getColor(params.guideColor)
+            p2.color = getColor(params.guidelineColor)
             p2.pathEffect =
                 DashPathEffect(floatArrayOf(4F, 8F), 0F)
 
