@@ -35,7 +35,7 @@ class WeekLineGraph @JvmOverloads constructor(
     private var params: Params = Params()
     private var values: List<Int> = emptyList()
 
-    fun displayValues(params: Params, values: List<Int>){
+    fun displayValues(params: Params, values: List<Int>) {
         this.params = params
         this.values = values
         invalidate()
@@ -55,7 +55,7 @@ class WeekLineGraph @JvmOverloads constructor(
         }
     }
 
-    private fun drawLine(canvas: Canvas){
+    private fun drawLine(canvas: Canvas) {
 
         val linePaint = getLinePaint()
         val MAX_SCALE_VALUE = 100F
@@ -86,11 +86,11 @@ class WeekLineGraph @JvmOverloads constructor(
                 prevX = currentX
                 prevY = currentY
             } else {
-                    //draw line without gaps
-                    canvas.drawLine(prevX, prevY, currentX, currentY, linePaint)
+                //draw line without gaps
+                canvas.drawLine(prevX, prevY, currentX, currentY, linePaint)
 
-                    prevX = currentX
-                    prevY = currentY
+                prevX = currentX
+                prevY = currentY
             }
 
         }
@@ -99,6 +99,7 @@ class WeekLineGraph @JvmOverloads constructor(
 
     private fun drawWeekdays(canvas: Canvas) {
         val divisionWidth = width / WEEKDAYS_NUMBER
+        val weekdayTitles = getWeekdayTitleList()
         for (index in values.indices) {
             val item = values[index]
 
@@ -108,7 +109,7 @@ class WeekLineGraph @JvmOverloads constructor(
                 val textWeekday = getWeekdayPaint()
 
                 val textBoundWeekday = Rect()
-                val weekdayTitle = "N"
+                val weekdayTitle = weekdayTitles.get(index)
                 textWeekday.getTextBounds(weekdayTitle, 0, weekdayTitle.length, textBoundWeekday)
 
                 val weekdayTop = height - (params.weekdaysHeightPx / 2) + (textBoundWeekday.height() / 2)
@@ -126,6 +127,23 @@ class WeekLineGraph @JvmOverloads constructor(
         }
     }
 
+    private fun getWeekdayTitleList(): List<String> {
+        val titles = mutableListOf<String>()
+        val currentDay = Calendar.getInstance()
+        while (titles.size != WEEKDAYS_NUMBER) {
+            currentDay.add(Calendar.DAY_OF_WEEK, 1)
+            val weekday = currentDay.get(Calendar.DAY_OF_WEEK)
+            if (weekday == params.startWeekday) {
+                titles.add(weekday.toString())
+            } else {
+                if (titles.size > 0) {
+                    titles.add(weekday.toString())
+                }
+            }
+        }
+        return titles
+    }
+
     private fun getWeekdayPaint(): Paint {
         val paint = TextPaint()
         paint.isAntiAlias = true
@@ -137,6 +155,7 @@ class WeekLineGraph @JvmOverloads constructor(
     private fun getGraphHeight(): Float {
         return getGraphBottom() - getGraphTop()
     }
+
     //**
     // Graph's top is the first top dotted line (it is not(!) top of view)
     private fun getGraphTop(): Float {
@@ -186,7 +205,7 @@ class WeekLineGraph @JvmOverloads constructor(
         return paint
     }
 
-    private fun getColor(@ColorRes colorResource: Int): Int{
+    private fun getColor(@ColorRes colorResource: Int): Int {
         return ContextCompat.getColor(context, colorResource)
     }
 
@@ -240,7 +259,8 @@ class WeekLineGraph @JvmOverloads constructor(
         }
     }
 
-    *//**
+    */
+    /**
      * We override onTouch() method to handle click on graph's division item
      *//*
     override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -515,7 +535,8 @@ class WeekLineGraph @JvmOverloads constructor(
         }
     }
 
-    *//**
+    */
+    /**
      * Drawing pulse line's nodes.
      * We draw nodes in separate loop because we need to draw node' circle over the drawn line
      *//*
@@ -678,14 +699,16 @@ class WeekLineGraph @JvmOverloads constructor(
         return getGraphBottom() - getGraphTop()
     }
 
-    *//**
+    */
+    /**
      * Graph's top is the first top dotted line (it is not(!) top of view)
      *//*
     private fun getGraphTop(): Float {
         return (getScaleValueTextHeight(context) / 2F)
     }
 
-    *//**
+    */
+    /**
      * Graph's bottom is the last top dotted line (it is not(!) bottom of view)
      *//*
     private fun getGraphBottom(): Float {
