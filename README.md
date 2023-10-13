@@ -31,5 +31,6 @@ implementation 'com.github.valerybodak:Graphty:1.0.0'
 ```
 Property | Type | Description 
 --- | --- | --- 
-minValue | Int | Min value to display on scale 
-maxValue | Int | Max value to display on scale
+minValue | Int | Min value to display on scale. In case is not specified the min value from values list will be applied
+maxValue | Int | Max value to display on scale. In case is not specified the max value from values list will be applied
+enableGuidelines | Boolean | Enable / Disable vertical guidelines
