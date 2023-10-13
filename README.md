@@ -40,6 +40,7 @@ guidelineWidth | Float | The width of guideline
 guidelineColor | Int | The color (@ColorRes) of guideline
 nodesMode | NodesMode | 1. NodesMode.NONE - to disable nodes. 2. NodesMode.ALL - to display the node for each value, 3. NodesMode.MAX - to display the node only for the max value
 nodeRadiusPx | Float | The node's radius
+nodeFillColor | Int | The color (@ColorRes) of node
 valueScaleWidthPx | Float | The width of the left side panel of values
 valueTextSize | Float | The text size of values on the left side panel
 
@@ -49,10 +50,9 @@ valueTextSize | Float | The text size of values on the left side panel
     val weekdayScaleHeightPx: Float = 70F,
     val weekdayTextSize: Float = 36F,
     val nodesMode: NodesMode = NodesMode.ALL,
-    val nodeRadiusPx: Float = 14F,
+    
 
-    @ColorRes
-    val nodeFillColor: Int = android.R.color.white,
+    
     @ColorRes
     val weekdayTextColor: Int = android.R.color.black,
     @ColorRes
