@@ -24,7 +24,7 @@ data class Params(
      * Max value to display on scale
      */
     val maxValue: Int = CommonConst.UNDEFINED,
-    val enableGuides: Boolean = true,
+    val enableGuidelines: Boolean = false,
     val lineWidth: Float = 5F,
     val guideWidth: Float = 3F,
     val valueScaleWidthPx: Float = 100F,
@@ -67,8 +67,8 @@ class WeekLineGraph @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         if (values.isNotEmpty()) {
-            if (params.enableGuides) {
-                drawGuides(canvas)
+            if (params.enableGuidelines) {
+                drawGuidelines(canvas)
             }
             drawLine(canvas)
             drawScaleValues(canvas)
@@ -79,7 +79,7 @@ class WeekLineGraph @JvmOverloads constructor(
         }
     }
 
-    private fun drawGuides(canvas: Canvas) {
+    private fun drawGuidelines(canvas: Canvas) {
         val nodePaint = Paint(ANTI_ALIAS_FLAG)
         nodePaint.style = Paint.Style.FILL
         val divisionWidth = getVerticalDivisionWidth()
