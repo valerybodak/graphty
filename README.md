@@ -46,6 +46,7 @@ valueTextSize | Float | The text size of values on the left side panel
 valueTextColor | Int | The color (@ColorRes) of values on the left side panel
 weekdayStart | Int | The first day of the week. Use the Calendar's contsants: Calendar.MONDAY, Calendar.SUNDAY etc.
 weekdayTextColor | Int | The color (@ColorRes) of the weekday title
+weekdayNameMap | Map<Int, String> | The mapping to display the weekday titles. The key is Calendar's contsants (Calendar.MONDAY, Calendar.TUESDAY etc.). The value is the weekday's representation, for example, "M", "T", "W" etc.
 
 
     val weekdayNameMap: Map<Int, String> = emptyMap(),
