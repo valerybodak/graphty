@@ -21,7 +21,16 @@ class MainActivity : AppCompatActivity() {
     private fun setupGraph() {
         binding.weekLineGraph.displayValues(
             params = WeekLineGraph.Params(
-                startWeekday = Calendar.MONDAY
+                startWeekday = Calendar.MONDAY,
+                weekdayNameMap = mapOf(
+                    Calendar.MONDAY to "M",
+                    Calendar.TUESDAY to "T",
+                    Calendar.WEDNESDAY to "W",
+                    Calendar.THURSDAY to "T",
+                    Calendar.FRIDAY to "F",
+                    Calendar.SATURDAY to "S",
+                    Calendar.SUNDAY to "S",
+                )
             ),
             values = getValues()
         )

@@ -26,6 +26,7 @@ class WeekLineGraph @JvmOverloads constructor(
 
     data class Params(
         val startWeekday: Int = Calendar.MONDAY,
+        val weekdayNameMap: Map<Int, String> = emptyMap(),
         val weekdaysHeightPx: Float = 60F,
         val weekdaysTextSize: Float = 40F,
         @ColorRes
@@ -134,14 +135,18 @@ class WeekLineGraph @JvmOverloads constructor(
             currentDay.add(Calendar.DAY_OF_WEEK, 1)
             val weekday = currentDay.get(Calendar.DAY_OF_WEEK)
             if (weekday == params.startWeekday) {
-                titles.add(weekday.toString())
+                titles.add(resolveWeekdayName(weekday))
             } else {
                 if (titles.size > 0) {
-                    titles.add(weekday.toString())
+                    titles.add(resolveWeekdayName(weekday))
                 }
             }
         }
         return titles
+    }
+
+    private fun resolveWeekdayName(weekday: Int): String {
+        return params.weekdayNameMap[weekday].toString()
     }
 
     private fun getWeekdayPaint(): Paint {
