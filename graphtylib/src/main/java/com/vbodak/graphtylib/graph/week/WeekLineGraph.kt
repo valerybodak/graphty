@@ -61,7 +61,7 @@ class WeekLineGraph @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         if (values.isNotEmpty()) {
-            if(params.enableGuides){
+            if (params.enableGuides) {
                 drawGuides(canvas)
             }
             drawLine(canvas)
@@ -85,9 +85,10 @@ class WeekLineGraph @JvmOverloads constructor(
             val currentX = divisionLeft + (divisionWidth / 2F)
 
             var currentY = getGraphTop()
-            if (item >= params.minValue && item <= params.maxValue) {
+            val maxValue = getMaxValue()
+            if (item >= getMinValue() && item <= maxValue) {
                 currentY =
-                    getGraphBottom() - (getGraphHeight() / (params.maxValue / item.toFloat()))
+                    getGraphBottom() - (getGraphHeight() / (maxValue / item.toFloat()))
             }
 
             val path = Path()
@@ -120,10 +121,12 @@ class WeekLineGraph @JvmOverloads constructor(
             val currentX =
                 divisionLeft + (divisionWidth / 2F)
 
+            val maxValue = getMaxValue()
+
             var currentY = getGraphTop()
-            if (item >= params.minValue && item <= params.maxValue) {
+            if (item >= getMinValue() && item <= maxValue) {
                 currentY =
-                    getGraphBottom() - (getGraphHeight() / (params.maxValue / item.toFloat()))
+                    getGraphBottom() - (getGraphHeight() / (maxValue / item.toFloat()))
             }
 
             if (prevX == CommonConst.UNDEFINED.toFloat() && prevY == CommonConst.UNDEFINED.toFloat()) {
@@ -140,8 +143,8 @@ class WeekLineGraph @JvmOverloads constructor(
     }
 
     private fun drawScaleValues(canvas: Canvas) {
-        val minValue = if (params.minValue != CommonConst.UNDEFINED) params.minValue else values.min()
-        val maxValue = if (params.maxValue != CommonConst.UNDEFINED) params.maxValue else values.max()
+        val minValue = getMinValue()
+        val maxValue = getMaxValue()
         val midValue = (maxValue - minValue) / 2
 
         //draw max value
@@ -222,9 +225,10 @@ class WeekLineGraph @JvmOverloads constructor(
                 divisionLeft + (divisionWidth / 2F)
 
             var currentY = getGraphTop()
-            if (item >= params.minValue && item <= params.maxValue) {
+            val maxValue = getMaxValue()
+            if (item >= getMinValue() && item <= maxValue) {
                 currentY =
-                    getGraphBottom() - (getGraphHeight() / (params.maxValue / item.toFloat()))
+                    getGraphBottom() - (getGraphHeight() / (maxValue / item.toFloat()))
             }
 
             if (params.nodesMode == NodesMode.ALL || (params.nodesMode == NodesMode.MAX && item == values.max())) {
@@ -295,6 +299,22 @@ class WeekLineGraph @JvmOverloads constructor(
         textPaint.textSize = params.valueTextSize
         textPaint.color = getColor(params.valueTextColor)
         return textPaint
+    }
+
+    private fun getMinValue(): Int {
+        return if (params.minValue >= values.min()) {
+            values.min()
+        } else {
+            params.minValue
+        }
+    }
+
+    private fun getMaxValue(): Int {
+        return if (params.maxValue <= values.max()) {
+            values.max()
+        } else {
+            params.maxValue
+        }
     }
 
     private fun getGraphHeight(): Float {
