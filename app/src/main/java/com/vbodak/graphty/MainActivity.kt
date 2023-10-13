@@ -22,8 +22,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupGraph() {
         binding.weekLineGraph.displayValues(
             params = Params(
-                minValue = 0,
-                maxValue = 900,
+                minValue = 10,
+                maxValue = 100,
                 weekdayStart = Calendar.SUNDAY,
                 weekdayNameMap = mapOf(
                     Calendar.MONDAY to "M",
@@ -40,6 +40,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getValues(): List<Int>{
-        return listOf(700, 31, 230, 51, 102, 467, 89)
+        return listOf(10, 55, 25, 40, 45, 100, 78)
     }
 }

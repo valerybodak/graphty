@@ -90,12 +90,7 @@ class WeekLineGraph @JvmOverloads constructor(
 
             val currentX = divisionLeft + (divisionWidth / 2F)
 
-            var currentY = getGraphTop()
-            val maxValue = getMaxValue()
-            if (item >= getMinValue() && item <= maxValue) {
-                currentY =
-                    getGraphBottom() - (getGraphHeight() / (maxValue / item.toFloat()))
-            }
+            val currentY = getPointY(item)
 
             val path = Path()
             path.moveTo(currentX, currentY)
@@ -124,16 +119,9 @@ class WeekLineGraph @JvmOverloads constructor(
 
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
-            val currentX =
-                divisionLeft + (divisionWidth / 2F)
+            val currentX = divisionLeft + (divisionWidth / 2F)
 
-            val maxValue = getMaxValue()
-
-            var currentY = getGraphTop()
-            if (item >= getMinValue() && item <= maxValue) {
-                currentY =
-                    getGraphBottom() - (getGraphHeight() / (maxValue / item.toFloat()))
-            }
+            val currentY = getPointY(item)
 
             if (prevX == CommonConst.UNDEFINED.toFloat() && prevY == CommonConst.UNDEFINED.toFloat()) {
                 //the first point
@@ -151,7 +139,7 @@ class WeekLineGraph @JvmOverloads constructor(
     private fun drawScaleValues(canvas: Canvas) {
         val minValue = getMinValue()
         val maxValue = getMaxValue()
-        val midValue = (maxValue - minValue) / 2
+        val midValue = minValue + (maxValue - minValue) / 2
 
         //draw max value
         val maxValueTop = getValueTextBound(maxValue).height().toFloat()
@@ -163,11 +151,7 @@ class WeekLineGraph @JvmOverloads constructor(
 
         //draw mid value
         val midValueTop = (height - params.weekdayScaleHeightPx) / 2F + (getValueTextBound(midValue).height() / 2F)
-        drawValue(
-            canvas,
-            midValueTop,
-            midValue
-        )
+        drawValue(canvas, midValueTop, midValue)
     }
 
     private fun drawValue(canvas: Canvas, valueTop: Float, value: Int) {
@@ -230,12 +214,7 @@ class WeekLineGraph @JvmOverloads constructor(
             val currentX =
                 divisionLeft + (divisionWidth / 2F)
 
-            var currentY = getGraphTop()
-            val maxValue = getMaxValue()
-            if (item >= getMinValue() && item <= maxValue) {
-                currentY =
-                    getGraphBottom() - (getGraphHeight() / (maxValue / item.toFloat()))
-            }
+            val currentY = getPointY(item)
 
             if (params.nodesMode == NodesMode.ALL || (params.nodesMode == NodesMode.MAX && item == values.max())) {
                 //outer circle
@@ -247,6 +226,17 @@ class WeekLineGraph @JvmOverloads constructor(
                 canvas.drawCircle(currentX, currentY, params.nodeRadiusPx - params.lineWidth, nodePaint)
             }
         }
+    }
+
+    private fun getPointY(value: Int): Float {
+        val minValue = getMinValue()
+        val maxValue = getMaxValue()
+        var y = getGraphTop()
+        if (value in minValue..maxValue) {
+            val offset = getGraphHeight() / (maxValue - minValue).toFloat()
+            y = getGraphBottom() - ((value.toFloat() - minValue.toFloat()) * offset)
+        }
+        return y
     }
 
     private fun getWeekdayTitleList(): List<String> {
