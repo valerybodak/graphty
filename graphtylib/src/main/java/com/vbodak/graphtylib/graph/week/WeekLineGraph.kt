@@ -16,7 +16,13 @@ enum class NodesMode {
 }
 
 data class Params(
+    /**
+     * Min value to display on scale
+     */
     val minValue: Int = CommonConst.UNDEFINED,
+    /**
+     * Max value to display on scale
+     */
     val maxValue: Int = CommonConst.UNDEFINED,
     val enableGuides: Boolean = true,
     val lineWidth: Float = 5F,
