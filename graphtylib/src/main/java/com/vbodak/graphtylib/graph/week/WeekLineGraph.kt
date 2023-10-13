@@ -104,38 +104,6 @@ class WeekLineGraph @JvmOverloads constructor(
             val divisionLeft = index * divisionWidth
 
             if (true) {
-
-                //We need to draw subtitle1 firstly because we align other titles along it
-                /*val textPaintDateSubtitle1 = getTextDateSubtitle1Paint()
-
-                val textBoundDateSubtitle1 = Rect()
-                val dateSubtitle1 = item.dateAppearance!!.subtitle1
-                textPaintDateSubtitle1.getTextBounds(
-                    dateSubtitle1,
-                    0,
-                    dateSubtitle1.length,
-                    textBoundDateSubtitle1
-                )
-
-                var dateSubtitle1Top: Float
-                if (item.dateAppearance!!.hasSubtitle2()) {
-                    dateSubtitle1Top =
-                        height - (dateContainerHeight / 2) + (textBoundDateSubtitle1.height() / 2)
-                } else {
-                    dateSubtitle1Top =
-                        height - dateContainerHeight / 2 + textBoundDateSubtitle1.height()
-                }
-                val dateSubtitle1Left =
-                    divisionLeft + (divisionWidth / 2) - (textBoundDateSubtitle1.width() / 2)
-
-                canvas.drawText(
-                    dateSubtitle1,
-                    dateSubtitle1Left,
-                    dateSubtitle1Top,
-                    textPaintDateSubtitle1
-                )*/
-
-                //Drawing title
                 val textPaintDateTitle = getWeekdayPaint()
 
                 val textBoundDateTitle = Rect()
@@ -143,8 +111,7 @@ class WeekLineGraph @JvmOverloads constructor(
                 textPaintDateTitle.getTextBounds(dateTitle, 0, dateTitle.length, textBoundDateTitle)
 
                 val dateTitleTop = height - (params.weekdaysHeightPx / 2) + (textBoundDateTitle.height() / 2)
-                //val dateTitleTop = dateSubtitle1Top - textBoundDateTitle.height() - dateTextSpacing
-
+                
                 val dateTitleLeft =
                     divisionLeft + (divisionWidth / 2) - (textBoundDateTitle.width() / 2)
 
