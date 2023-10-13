@@ -27,12 +27,16 @@ class WeekLineGraph @JvmOverloads constructor(
     data class Params(
         val minValue: Int = 0,
         val maxValue: Int = 100,
-        val startWeekday: Int = Calendar.MONDAY,
-        val weekdayNameMap: Map<Int, String> = emptyMap(),
-        val weekdaysHeightPx: Float = 60F,
-        val weekdaysTextSize: Float = 40F,
+        val valueWidthPx: Float = 100F,
+        val valueTextSize: Float = 40F,
         @ColorRes
-        val weekdaysTextColor: Int = android.R.color.black
+        val valueTextColor: Int = android.R.color.black,
+        val weekdayStart: Int = Calendar.MONDAY,
+        val weekdayNameMap: Map<Int, String> = emptyMap(),
+        val weekdayHeightPx: Float = 60F,
+        val weekdayTextSize: Float = 40F,
+        @ColorRes
+        val weekdayTextColor: Int = android.R.color.black
     )
 
     private var params: Params = Params()
@@ -61,7 +65,6 @@ class WeekLineGraph @JvmOverloads constructor(
     private fun drawLine(canvas: Canvas) {
 
         val linePaint = getLinePaint()
-        //val MAX_SCALE_VALUE = 100F
 
         var prevX = UNDEFINED
         var prevY = UNDEFINED
@@ -106,7 +109,7 @@ class WeekLineGraph @JvmOverloads constructor(
             val weekdayTitle = weekdayTitles.get(index)
             textWeekday.getTextBounds(weekdayTitle, 0, weekdayTitle.length, textBoundWeekday)
 
-            val weekdayTop = height - (params.weekdaysHeightPx / 2) + (textBoundWeekday.height() / 2)
+            val weekdayTop = height - (params.weekdayHeightPx / 2) + (textBoundWeekday.height() / 2)
 
             val weekdayLeft =
                 divisionLeft + (divisionWidth / 2) - (textBoundWeekday.width() / 2)
@@ -126,7 +129,7 @@ class WeekLineGraph @JvmOverloads constructor(
         while (titles.size != WEEKDAYS_NUMBER) {
             currentDay.add(Calendar.DAY_OF_WEEK, 1)
             val weekday = currentDay.get(Calendar.DAY_OF_WEEK)
-            if (weekday == params.startWeekday) {
+            if (weekday == params.weekdayStart) {
                 titles.add(resolveWeekdayName(weekday))
             } else {
                 if (titles.size > 0) {
@@ -144,8 +147,8 @@ class WeekLineGraph @JvmOverloads constructor(
     private fun getWeekdayPaint(): Paint {
         val paint = TextPaint()
         paint.isAntiAlias = true
-        paint.textSize = params.weekdaysTextSize
-        paint.color = getColor(params.weekdaysTextColor)
+        paint.textSize = params.weekdayTextSize
+        paint.color = getColor(params.weekdayTextColor)
         return paint
     }
 
@@ -165,7 +168,7 @@ class WeekLineGraph @JvmOverloads constructor(
      * Graph's bottom is the last top dotted line (it is not(!) bottom of view)
      */
     private fun getGraphBottom(): Float {
-        return height - params.weekdaysHeightPx - (getScaleValueTextHeight(context) / 2F)
+        return height - params.weekdayHeightPx - (getScaleValueTextHeight(context) / 2F)
     }
 
     fun getScaleValueTextHeight(context: Context): Int {
