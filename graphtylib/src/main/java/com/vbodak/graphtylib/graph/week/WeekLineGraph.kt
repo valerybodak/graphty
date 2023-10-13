@@ -7,11 +7,10 @@ import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.Rect
 import android.text.TextPaint
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import java.util.Calendar
+import java.util.*
 
 class WeekLineGraph @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
@@ -188,6 +187,27 @@ class WeekLineGraph @JvmOverloads constructor(
         return params.weekdayNameMap[weekday].toString()
     }
 
+    private fun getVerticalDivisionWidth(): Float {
+        return (width - params.valueScaleWidthPx) / WEEKDAYS_NUMBER
+    }
+
+    private fun getValueScaleTextHeight(): Int {
+        //It can be any value because we use it only to measure text's container height
+        val title = "0"
+        val textPaint = getValueTextPaint()
+        val textBound = Rect()
+        textPaint.getTextBounds(title, 0, title.length, textBound)
+        return textBound.height()
+    }
+
+    private fun getLinePaint(): Paint {
+        val paint = Paint(ANTI_ALIAS_FLAG)
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = params.lineWidth
+        paint.color = getColor(params.lineColor)
+        return paint
+    }
+
     private fun getWeekdayPaint(): Paint {
         val paint = TextPaint()
         paint.isAntiAlias = true
@@ -196,8 +216,12 @@ class WeekLineGraph @JvmOverloads constructor(
         return paint
     }
 
-    private fun getVerticalDivisionWidth(): Float {
-        return (width - params.valueScaleWidthPx) / WEEKDAYS_NUMBER
+    private fun getValueTextPaint(): TextPaint {
+        val textPaint = TextPaint()
+        textPaint.isAntiAlias = true
+        textPaint.textSize = params.valueTextSize
+        textPaint.color = getColor(params.valueTextColor)
+        return textPaint
     }
 
     private fun getGraphHeight(): Float {
@@ -210,38 +234,6 @@ class WeekLineGraph @JvmOverloads constructor(
 
     private fun getGraphBottom(): Float {
         return height - params.weekdayScaleHeightPx - (getValueScaleTextHeight() / 2F)
-    }
-
-    private fun getValueScaleTextHeight(): Int {
-        //It can be any value because we use it only to measure text's container height
-        val title = "0"
-        val textPaint = getValueTextPaint()
-        val textBound = Rect()
-        textPaint.getTextBounds(title, 0, title.length, textBound)
-        return textBound.height()
-    }
-
-    private fun getValueTextPaint(): TextPaint {
-        val textPaint = TextPaint()
-        textPaint.isAntiAlias = true
-        textPaint.textSize = params.valueTextSize
-        textPaint.color = getColor(params.valueTextColor)
-        return textPaint
-    }
-
-    private fun spToPx(context: Context, dimenResource: Int): Float {
-        val res = context.resources
-        val metrics = res.displayMetrics
-        val spValue = res.getDimension(dimenResource) / metrics.density
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, metrics)
-    }
-
-    private fun getLinePaint(): Paint {
-        val paint = Paint(ANTI_ALIAS_FLAG)
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = params.lineWidth
-        paint.color = getColor(params.lineColor)
-        return paint
     }
 
     private fun getColor(@ColorRes colorResource: Int): Int {
