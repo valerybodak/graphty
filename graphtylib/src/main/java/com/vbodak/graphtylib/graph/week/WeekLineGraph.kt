@@ -20,7 +20,8 @@ class WeekLineGraph @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     companion object {
-        const val UNDEFINED = -1F
+        private const val UNDEFINED = -1F
+        private const val WEEKDAYS_NUMBER = 7
     }
 
     data class Params(
@@ -61,7 +62,7 @@ class WeekLineGraph @JvmOverloads constructor(
 
         var prevX = UNDEFINED
         var prevY = UNDEFINED
-        val divisionWidth = width / 7
+        val divisionWidth = width / WEEKDAYS_NUMBER
         //val lineStrokeWidth = 20
         //val lineStrokeWidth = dpToPx(R.dimen.dual_graph_pulse_line_stroke_width)
         for (index in values.indices) {
@@ -97,7 +98,7 @@ class WeekLineGraph @JvmOverloads constructor(
     }
 
     private fun drawWeekdays(canvas: Canvas) {
-        val divisionWidth = width / 7
+        val divisionWidth = width / WEEKDAYS_NUMBER
         for (index in values.indices) {
             val item = values[index]
 
