@@ -28,8 +28,11 @@ data class Params(
     val weekdayScaleHeightPx: Float = 60F,
     val weekdayTextSize: Float = 40F,
     val nodesMode: NodesMode = NodesMode.ALL,
+    val nodeRadius: Float = 14F,
     @ColorRes
     val lineColor: Int = android.R.color.black,
+    @ColorRes
+    val nodeFillColor: Int = android.R.color.white,
     @ColorRes
     val weekdayTextColor: Int = android.R.color.black,
     @ColorRes
@@ -178,9 +181,6 @@ class WeekLineGraph @JvmOverloads constructor(
         val nodePaint = Paint(ANTI_ALIAS_FLAG)
         nodePaint.style = Paint.Style.FILL
         val divisionWidth = getVerticalDivisionWidth()
-        val linePaint = getLinePaint()
-        var prevX = CommonConst.UNDEFINED.toFloat()
-        var prevY = CommonConst.UNDEFINED.toFloat()
         for (index in 0 until WEEKDAYS_NUMBER) {
             val item = if(values.size <= index) 0 else values[index]
 
@@ -195,14 +195,13 @@ class WeekLineGraph @JvmOverloads constructor(
                     getGraphBottom() - (getGraphHeight() / (params.maxValue / item.toFloat()))
             }
 
-            nodePaint.color = getColor(android.R.color.holo_red_light)
-            canvas.drawCircle(currentX, currentY, 40F, nodePaint)
+            //outer circle
+            nodePaint.color = getColor(params.lineColor)
+            canvas.drawCircle(currentX, currentY, params.nodeRadius, nodePaint)
 
-            //nodePaint.color = getColor(android.R.color.holo_blue_bright)
-            //canvas.drawCircle(currentX, currentY, 16F, nodePaint)
-
-            nodePaint.color = getColor(android.R.color.black)
-            canvas.drawCircle(currentX, currentY, 15F, nodePaint)
+            //inner circle
+            nodePaint.color = getColor(params.nodeFillColor)
+            canvas.drawCircle(currentX, currentY, params.nodeRadius - params.lineWidth, nodePaint)
         }
     }
 
