@@ -203,7 +203,7 @@ class WeekLineGraph @JvmOverloads constructor(
     private fun getGraphHeight(): Float {
         return getGraphBottom() - getGraphTop()
     }
-    
+
     private fun getGraphTop(): Float {
         return (getValueScaleTextHeight() / 2F)
     }

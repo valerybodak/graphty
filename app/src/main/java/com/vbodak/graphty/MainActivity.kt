@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             params = WeekLineGraph.Params(
                 minValue = 0,
                 maxValue = 100,
-                weekdayStart = Calendar.MONDAY,
+                weekdayStart = Calendar.SUNDAY,
                 weekdayNameMap = mapOf(
                     Calendar.MONDAY to "M",
                     Calendar.TUESDAY to "T",
@@ -39,6 +39,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getValues(): List<Int>{
-        return listOf(50, 0, 50, 51)
+        return listOf(50, 0, 50, 51, 40, 38, 37)
     }
 }
