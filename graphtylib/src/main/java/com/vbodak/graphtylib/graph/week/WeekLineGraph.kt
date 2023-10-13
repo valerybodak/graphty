@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import com.vbodak.graphtylib.common.CommonConst
 import java.util.*
 
-enum class NodesMode{
+enum class NodesMode {
     NONE, ALL, MAX
 }
 
@@ -28,7 +28,7 @@ data class Params(
     val weekdayScaleHeightPx: Float = 60F,
     val weekdayTextSize: Float = 40F,
     val nodesMode: NodesMode = NodesMode.ALL,
-    val nodeRadius: Float = 14F,
+    val nodeRadiusPx: Float = 14F,
     @ColorRes
     val lineColor: Int = android.R.color.black,
     @ColorRes
@@ -62,7 +62,7 @@ class WeekLineGraph @JvmOverloads constructor(
             drawLine(canvas)
             drawValues(canvas)
             drawWeekdays(canvas)
-            if(params.nodesMode != NodesMode.NONE){
+            if (params.nodesMode != NodesMode.NONE) {
                 drawNodes(canvas)
             }
 
@@ -81,7 +81,7 @@ class WeekLineGraph @JvmOverloads constructor(
         var prevX = CommonConst.UNDEFINED.toFloat()
         var prevY = CommonConst.UNDEFINED.toFloat()
         for (index in 0 until WEEKDAYS_NUMBER) {
-            val item = if(values.size <= index) 0 else values[index]
+            val item = if (values.size <= index) 0 else values[index]
 
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
@@ -177,12 +177,12 @@ class WeekLineGraph @JvmOverloads constructor(
         }
     }
 
-    private fun drawNodes(canvas: Canvas){
+    private fun drawNodes(canvas: Canvas) {
         val nodePaint = Paint(ANTI_ALIAS_FLAG)
         nodePaint.style = Paint.Style.FILL
         val divisionWidth = getVerticalDivisionWidth()
         for (index in 0 until WEEKDAYS_NUMBER) {
-            val item = if(values.size <= index) 0 else values[index]
+            val item = if (values.size <= index) 0 else values[index]
 
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
@@ -195,13 +195,15 @@ class WeekLineGraph @JvmOverloads constructor(
                     getGraphBottom() - (getGraphHeight() / (params.maxValue / item.toFloat()))
             }
 
-            //outer circle
-            nodePaint.color = getColor(params.lineColor)
-            canvas.drawCircle(currentX, currentY, params.nodeRadius, nodePaint)
+            if (params.nodesMode == NodesMode.ALL || (params.nodesMode == NodesMode.MAX && item == values.max())) {
+                //outer circle
+                nodePaint.color = getColor(params.lineColor)
+                canvas.drawCircle(currentX, currentY, params.nodeRadiusPx, nodePaint)
 
-            //inner circle
-            nodePaint.color = getColor(params.nodeFillColor)
-            canvas.drawCircle(currentX, currentY, params.nodeRadius - params.lineWidth, nodePaint)
+                //inner circle
+                nodePaint.color = getColor(params.nodeFillColor)
+                canvas.drawCircle(currentX, currentY, params.nodeRadiusPx - params.lineWidth, nodePaint)
+            }
         }
     }
 
