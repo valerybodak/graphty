@@ -40,6 +40,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getValues(): List<Int>{
-        return listOf(50, 31, 87, 51, 40, 0, 37)
+        return listOf(50, 31, 87, 51, 40, 4, 37)
     }
 }

@@ -10,7 +10,6 @@
         android:id="@+id/weekLineGraph"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#C8C8C8"
         app:layout_constraintHeight_percent="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

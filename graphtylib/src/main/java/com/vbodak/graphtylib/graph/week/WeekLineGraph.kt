@@ -1,11 +1,8 @@
 package com.vbodak.graphtylib.graph.week
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
+import android.graphics.*
 import android.graphics.Paint.ANTI_ALIAS_FLAG
-import android.graphics.Rect
-import android.graphics.RectF
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
@@ -21,7 +18,7 @@ enum class NodesMode {
 data class Params(
     val minValue: Int = CommonConst.UNDEFINED,
     val maxValue: Int = CommonConst.UNDEFINED,
-    val enableDivisions: Boolean = true,
+    val enableGuides: Boolean = true,
     val lineWidth: Float = 5F,
     val valueScaleWidthPx: Float = 100F,
     val valueTextSize: Float = 36F,
@@ -61,8 +58,8 @@ class WeekLineGraph @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         if (values.isNotEmpty()) {
-            if(params.enableDivisions){
-                drawDivisions(canvas)
+            if(params.enableGuides){
+                drawGuides(canvas)
             }
             drawLine(canvas)
             drawValues(canvas)
@@ -70,31 +67,41 @@ class WeekLineGraph @JvmOverloads constructor(
             if (params.nodesMode != NodesMode.NONE) {
                 drawNodes(canvas)
             }
-
-            /*drawDivisions(canvas)
-            drawDottedLines(canvas)
-            drawPressureGraph(canvas)
-            drawPulseGraph(canvas)
-            drawPulseGraphNodes(canvas)
-            drawDates(canvas)*/
         }
     }
 
-    private fun drawDivisions(canvas: Canvas) {
+    private fun drawGuides(canvas: Canvas) {
+        val nodePaint = Paint(ANTI_ALIAS_FLAG)
+        nodePaint.style = Paint.Style.FILL
         val divisionWidth = getVerticalDivisionWidth()
-        for (index in values.indices) {
-            if (index % 2 != 0) {
-                val itemPaint = Paint()
-                itemPaint.style = Paint.Style.FILL
-                itemPaint.color = getColor(android.R.color.darker_gray)
+        for (index in 0 until WEEKDAYS_NUMBER) {
+            val item = if (values.size <= index) 0 else values[index]
 
-                val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
-                val divisionRight = divisionLeft + divisionWidth
+            val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
-                val rect =
-                    RectF(divisionLeft, 0F, divisionRight, height.toFloat())
-                canvas.drawRect(rect, itemPaint)
+            val currentX =
+                divisionLeft + (divisionWidth / 2F)
+
+            var currentY = getGraphTop()
+            if (item >= params.minValue && item <= params.maxValue) {
+                currentY =
+                    getGraphBottom() - (getGraphHeight() / (params.maxValue / item.toFloat()))
             }
+
+            val path = Path()
+            path.moveTo(currentX, currentY)
+            path.lineTo(currentX, height - params.weekdayScaleHeightPx)
+
+            val p1 = Paint(ANTI_ALIAS_FLAG)
+            p1.style = Paint.Style.STROKE
+            p1.strokeWidth = 3F
+
+            val p2 = Paint(p1)
+            p2.color = getColor(android.R.color.darker_gray)
+            p2.pathEffect =
+                DashPathEffect(floatArrayOf(5F, 5F), 0F)
+
+            canvas.drawPath(path, p2)
         }
     }
 
