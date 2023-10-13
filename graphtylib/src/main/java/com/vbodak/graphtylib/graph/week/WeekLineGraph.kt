@@ -25,6 +25,8 @@ class WeekLineGraph @JvmOverloads constructor(
     }
 
     data class Params(
+        val minValue: Int = 0,
+        val maxValue: Int = 100,
         val startWeekday: Int = Calendar.MONDAY,
         val weekdayNameMap: Map<Int, String> = emptyMap(),
         val weekdaysHeightPx: Float = 60F,
@@ -59,7 +61,7 @@ class WeekLineGraph @JvmOverloads constructor(
     private fun drawLine(canvas: Canvas) {
 
         val linePaint = getLinePaint()
-        val MAX_SCALE_VALUE = 100F
+        //val MAX_SCALE_VALUE = 100F
 
         var prevX = UNDEFINED
         var prevY = UNDEFINED
@@ -73,9 +75,9 @@ class WeekLineGraph @JvmOverloads constructor(
                 divisionLeft + (divisionWidth / 2F)
 
             var currentY = getGraphTop()
-            if (item > 0 && item < MAX_SCALE_VALUE) {
+            if (item >= params.minValue && item <= params.maxValue) {
                 currentY =
-                    getGraphBottom() - (getGraphHeight() / (MAX_SCALE_VALUE / item.toFloat()))
+                    getGraphBottom() - (getGraphHeight() / (params.maxValue / item.toFloat()))
             }
 
             if (prevX == UNDEFINED && prevY == UNDEFINED) {
