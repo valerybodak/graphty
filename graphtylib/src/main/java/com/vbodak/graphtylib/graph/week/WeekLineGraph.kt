@@ -2,7 +2,6 @@ package com.vbodak.graphtylib.graph.week
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.Rect
@@ -20,24 +19,26 @@ class WeekLineGraph @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     companion object {
-        private const val UNDEFINED = -1F
+        private const val UNDEFINED = -1
         private const val WEEKDAYS_NUMBER = 7
-        //private const val VALUE_SCALE_NUMBER = 3
     }
 
     data class Params(
-        val minValue: Int = 0,
-        val maxValue: Int = 100,
+        val minValue: Int = UNDEFINED,
+        val maxValue: Int = UNDEFINED,
+        val lineWidth: Float = 5F,
         val valueScaleWidthPx: Float = 100F,
         val valueTextSize: Float = 40F,
-        @ColorRes
-        val valueTextColor: Int = android.R.color.black,
         val weekdayStart: Int = Calendar.MONDAY,
         val weekdayNameMap: Map<Int, String> = emptyMap(),
         val weekdayScaleHeightPx: Float = 60F,
         val weekdayTextSize: Float = 40F,
         @ColorRes
-        val weekdayTextColor: Int = android.R.color.black
+        val lineColor: Int = android.R.color.black,
+        @ColorRes
+        val weekdayTextColor: Int = android.R.color.black,
+        @ColorRes
+        val valueTextColor: Int = android.R.color.black,
     )
 
     private var params: Params = Params()
@@ -67,8 +68,8 @@ class WeekLineGraph @JvmOverloads constructor(
     private fun drawLine(canvas: Canvas) {
         val divisionWidth = getVerticalDivisionWidth()
         val linePaint = getLinePaint()
-        var prevX = UNDEFINED
-        var prevY = UNDEFINED
+        var prevX = UNDEFINED.toFloat()
+        var prevY = UNDEFINED.toFloat()
         for (index in values.indices) {
             val item = values[index]
 
@@ -83,7 +84,7 @@ class WeekLineGraph @JvmOverloads constructor(
                     getGraphBottom() - (getGraphHeight() / (params.maxValue / item.toFloat()))
             }
 
-            if (prevX == UNDEFINED && prevY == UNDEFINED) {
+            if (prevX == UNDEFINED.toFloat() && prevY == UNDEFINED.toFloat()) {
                 //the first point
                 prevX = currentX
                 prevY = currentY
@@ -97,7 +98,10 @@ class WeekLineGraph @JvmOverloads constructor(
     }
 
     private fun drawValues(canvas: Canvas){
+        val minValue = if(params.minValue != UNDEFINED) params.minValue else values.min()
+        val maxValue = if(params.maxValue!= UNDEFINED) params.maxValue else values.max()
 
+        val midValue = maxValue - minValue
     }
 
     private fun drawWeekdays(canvas: Canvas) {
@@ -118,7 +122,7 @@ class WeekLineGraph @JvmOverloads constructor(
 
             canvas.drawText(
                 weekdayTitle,
-                weekdayLeft.toFloat(),
+                weekdayLeft,
                 weekdayTop,
                 textWeekday
             )
@@ -166,32 +170,28 @@ class WeekLineGraph @JvmOverloads constructor(
      * Graph's top is the first top dotted line (it is not(!) top of view)
      */
     private fun getGraphTop(): Float {
-        return (getScaleValueTextHeight(context) / 2F)
+        return (getValueScaleTextHeight() / 2F)
     }
 
     /**
      * Graph's bottom is the last top dotted line (it is not(!) bottom of view)
      */
     private fun getGraphBottom(): Float {
-        return height - params.weekdayScaleHeightPx - (getScaleValueTextHeight(context) / 2F)
+        return height - params.weekdayScaleHeightPx - (getValueScaleTextHeight() / 2F)
     }
 
-    fun getScaleValueTextHeight(context: Context): Int {
+    private fun getValueScaleTextHeight(): Int {
         //It can be any value because we use it only to measure text's container height
         val title = "0"
-        val textPaint = getScaleValueTextPaint(context)
-
+        val textPaint = getValueTextPaint()
         val textBound = Rect()
         textPaint.getTextBounds(title, 0, title.length, textBound)
         return textBound.height()
     }
 
-    private fun getScaleValueTextPaint(context: Context): TextPaint {
-        //val customFont = ResourcesCompat.getFont(context, R.font.pt_sans_regular)
+    private fun getValueTextPaint(): TextPaint {
         val textPaint = TextPaint()
-        //textPaint.typeface = customFont
         textPaint.isAntiAlias = true
-        //textPaint.textSize = spToPx(context, R.dimen.dual_graph_scale_values_text_size)
         textPaint.textSize = params.valueTextSize
         textPaint.color = getColor(params.valueTextColor)
         return textPaint
@@ -207,9 +207,8 @@ class WeekLineGraph @JvmOverloads constructor(
     private fun getLinePaint(): Paint {
         val paint = Paint(ANTI_ALIAS_FLAG)
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 6F
-        //paint.strokeWidth = dpToPx(R.dimen.dual_graph_pulse_line_stroke_width)
-        paint.color = getColor(android.R.color.holo_green_dark)
+        paint.strokeWidth = params.lineWidth
+        paint.color = getColor(params.lineColor)
         return paint
     }
 
