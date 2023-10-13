@@ -97,11 +97,63 @@ class WeekLineGraph @JvmOverloads constructor(
         }
     }
 
-    private fun drawValues(canvas: Canvas){
-        val minValue = if(params.minValue != UNDEFINED) params.minValue else values.min()
-        val maxValue = if(params.maxValue!= UNDEFINED) params.maxValue else values.max()
+    private fun drawValues(canvas: Canvas) {
+        val minValue = if (params.minValue != UNDEFINED) params.minValue else values.min()
+        val maxValue = if (params.maxValue != UNDEFINED) params.maxValue else values.max()
 
-        val midValue = maxValue - minValue
+        val midValue = (maxValue - minValue) / 2
+
+        drawMaxValue(canvas, maxValue)
+        drawMinValue(canvas, minValue)
+        drawMidValue(canvas, midValue)
+    }
+
+    private fun drawMaxValue(canvas: Canvas, value: Int) {
+        val valuePaint = getValueTextPaint()
+        val textBoundWeekday = Rect()
+        val valueTitle = value.toString()
+        valuePaint.getTextBounds(valueTitle, 0, valueTitle.length, textBoundWeekday)
+
+        val valueTop = textBoundWeekday.height().toFloat()
+        val valueLeft = params.valueScaleWidthPx - textBoundWeekday.width()
+        canvas.drawText(
+            valueTitle,
+            valueLeft,
+            valueTop,
+            valuePaint
+        )
+    }
+
+    private fun drawMinValue(canvas: Canvas, value: Int) {
+        val valuePaint = getValueTextPaint()
+        val textBoundWeekday = Rect()
+        val valueTitle = value.toString()
+        valuePaint.getTextBounds(valueTitle, 0, valueTitle.length, textBoundWeekday)
+
+        val valueTop = height - params.weekdayScaleHeightPx
+        val valueLeft = params.valueScaleWidthPx - textBoundWeekday.width()
+        canvas.drawText(
+            valueTitle,
+            valueLeft,
+            valueTop,
+            valuePaint
+        )
+    }
+
+    private fun drawMidValue(canvas: Canvas, value: Int) {
+        val valuePaint = getValueTextPaint()
+        val textBoundWeekday = Rect()
+        val valueTitle = value.toString()
+        valuePaint.getTextBounds(valueTitle, 0, valueTitle.length, textBoundWeekday)
+
+        val valueTop = (height - params.weekdayScaleHeightPx) / 2F
+        val valueLeft = params.valueScaleWidthPx - textBoundWeekday.width()
+        canvas.drawText(
+            valueTitle,
+            valueLeft,
+            valueTop,
+            valuePaint
+        )
     }
 
     private fun drawWeekdays(canvas: Canvas) {
@@ -110,10 +162,10 @@ class WeekLineGraph @JvmOverloads constructor(
         for (index in values.indices) {
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
-            val textWeekday = getWeekdayPaint()
+            val weekdayPaint = getWeekdayPaint()
             val textBoundWeekday = Rect()
-            val weekdayTitle = weekdayTitles.get(index)
-            textWeekday.getTextBounds(weekdayTitle, 0, weekdayTitle.length, textBoundWeekday)
+            val weekdayTitle = weekdayTitles[index]
+            weekdayPaint.getTextBounds(weekdayTitle, 0, weekdayTitle.length, textBoundWeekday)
 
             val weekdayTop = height - (params.weekdayScaleHeightPx / 2) + (textBoundWeekday.height() / 2)
 
@@ -124,7 +176,7 @@ class WeekLineGraph @JvmOverloads constructor(
                 weekdayTitle,
                 weekdayLeft,
                 weekdayTop,
-                textWeekday
+                weekdayPaint
             )
         }
     }
