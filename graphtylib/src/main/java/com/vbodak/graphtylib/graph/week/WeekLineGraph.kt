@@ -203,17 +203,11 @@ class WeekLineGraph @JvmOverloads constructor(
     private fun getGraphHeight(): Float {
         return getGraphBottom() - getGraphTop()
     }
-
-    /**
-     * Graph's top is the first top dotted line (it is not(!) top of view)
-     */
+    
     private fun getGraphTop(): Float {
         return (getValueScaleTextHeight() / 2F)
     }
 
-    /**
-     * Graph's bottom is the last top dotted line (it is not(!) bottom of view)
-     */
     private fun getGraphBottom(): Float {
         return height - params.weekdayScaleHeightPx - (getValueScaleTextHeight() / 2F)
     }
