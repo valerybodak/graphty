@@ -44,15 +44,11 @@ nodeFillColor | Int | The color (@ColorRes) of node
 valueScaleWidthPx | Float | The width of the left side panel of values
 valueTextSize | Float | The text size of values on the left side panel
 valueTextColor | Int | The color (@ColorRes) of values on the left side panel
-weekdayStart | Int | The first day of the week. Use Calendar's contsants: Calendar.MONDAY, Calendar.SUNDAY etc.
+weekdayStart | Int | The first day of the week. Use the Calendar's contsants: Calendar.MONDAY, Calendar.SUNDAY etc.
+weekdayTextColor | Int | The color (@ColorRes) of the weekday title
 
 
-    val weekdayStart: Int = Calendar.MONDAY,
     val weekdayNameMap: Map<Int, String> = emptyMap(),
     val weekdayScaleHeightPx: Float = 70F,
     val weekdayTextSize: Float = 36F,  
-
-    
-    @ColorRes
-    val weekdayTextColor: Int = android.R.color.black,
     
