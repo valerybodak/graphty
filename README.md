@@ -35,7 +35,11 @@ minValue | Int | Min value to display on scale. In case is not specified the min
 maxValue | Int | Max value to display on scale. In case is not specified the max value from values list will be applied
 enableGuidelines | Boolean | Enable / Disable vertical guidelines
 lineWidth | Float | The width of graph's line
+lineColor | Int | The color (@ColorRes) of graph's line
 guidelineWidth | Float | The width of guideline
+guidelineColor | Int | The color (@ColorRes) of guideline
+nodesMode | NodesMode | 1. NodesMode.NONE - to disable nodes. 2. NodesMode.ALL - to display the node for each value, 3. NodesMode.MAX - to display the node only for the max value
+nodeRadiusPx | Float | The node's radius
 valueScaleWidthPx | Float | The width of the left side panel of values
 valueTextSize | Float | The text size of values on the left side panel
 
@@ -46,10 +50,7 @@ valueTextSize | Float | The text size of values on the left side panel
     val weekdayTextSize: Float = 36F,
     val nodesMode: NodesMode = NodesMode.ALL,
     val nodeRadiusPx: Float = 14F,
-    @ColorRes
-    val lineColor: Int = android.R.color.black,
-    @ColorRes
-    val guideColor: Int = android.R.color.darker_gray,
+
     @ColorRes
     val nodeFillColor: Int = android.R.color.white,
     @ColorRes
