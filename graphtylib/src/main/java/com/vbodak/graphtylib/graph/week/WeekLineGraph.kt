@@ -70,8 +70,8 @@ class WeekLineGraph @JvmOverloads constructor(
         val linePaint = getLinePaint()
         var prevX = UNDEFINED.toFloat()
         var prevY = UNDEFINED.toFloat()
-        for (index in values.indices) {
-            val item = values[index]
+        for (index in 0 until WEEKDAYS_NUMBER) {
+            val item = if(values.size <= index) 0 else values[index]
 
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
@@ -145,7 +145,7 @@ class WeekLineGraph @JvmOverloads constructor(
     private fun drawWeekdays(canvas: Canvas) {
         val divisionWidth = getVerticalDivisionWidth()
         val weekdayTitles = getWeekdayTitleList()
-        for (index in values.indices) {
+        for (index in 0 until WEEKDAYS_NUMBER) {
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
             val weekdayPaint = getWeekdayPaint()
