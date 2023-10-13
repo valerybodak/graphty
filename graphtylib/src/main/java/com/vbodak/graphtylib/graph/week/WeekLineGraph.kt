@@ -65,8 +65,8 @@ class WeekLineGraph @JvmOverloads constructor(
                 drawGuides(canvas)
             }
             drawLine(canvas)
-            drawValues(canvas)
-            drawWeekdays(canvas)
+            drawScaleValues(canvas)
+            drawScaleWeekdays(canvas)
             if (params.nodesMode != NodesMode.NONE) {
                 drawNodes(canvas)
             }
@@ -139,7 +139,7 @@ class WeekLineGraph @JvmOverloads constructor(
         }
     }
 
-    private fun drawValues(canvas: Canvas) {
+    private fun drawScaleValues(canvas: Canvas) {
         val minValue = if (params.minValue != CommonConst.UNDEFINED) params.minValue else values.min()
         val maxValue = if (params.maxValue != CommonConst.UNDEFINED) params.maxValue else values.max()
         val midValue = (maxValue - minValue) / 2
@@ -184,7 +184,7 @@ class WeekLineGraph @JvmOverloads constructor(
         return textBound
     }
 
-    private fun drawWeekdays(canvas: Canvas) {
+    private fun drawScaleWeekdays(canvas: Canvas) {
         val divisionWidth = getVerticalDivisionWidth()
         val weekdayTitles = getWeekdayTitleList()
         for (index in 0 until WEEKDAYS_NUMBER) {
