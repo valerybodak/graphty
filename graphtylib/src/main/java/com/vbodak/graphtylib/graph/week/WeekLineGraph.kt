@@ -13,6 +13,10 @@ import androidx.core.content.ContextCompat
 import com.vbodak.graphtylib.common.CommonConst
 import java.util.*
 
+enum class NodesMode{
+    NONE, ALL, MAX
+}
+
 data class Params(
     val minValue: Int = CommonConst.UNDEFINED,
     val maxValue: Int = CommonConst.UNDEFINED,
@@ -23,6 +27,7 @@ data class Params(
     val weekdayNameMap: Map<Int, String> = emptyMap(),
     val weekdayScaleHeightPx: Float = 60F,
     val weekdayTextSize: Float = 40F,
+    val nodesMode: NodesMode = NodesMode.ALL,
     @ColorRes
     val lineColor: Int = android.R.color.black,
     @ColorRes
@@ -54,6 +59,9 @@ class WeekLineGraph @JvmOverloads constructor(
             drawLine(canvas)
             drawValues(canvas)
             drawWeekdays(canvas)
+            if(params.nodesMode != NodesMode.NONE){
+                drawNodes(canvas)
+            }
 
             /*drawDivisions(canvas)
             drawDottedLines(canvas)
@@ -163,6 +171,38 @@ class WeekLineGraph @JvmOverloads constructor(
                 weekdayTop,
                 weekdayPaint
             )
+        }
+    }
+
+    private fun drawNodes(canvas: Canvas){
+        val nodePaint = Paint(ANTI_ALIAS_FLAG)
+        nodePaint.style = Paint.Style.FILL
+        val divisionWidth = getVerticalDivisionWidth()
+        val linePaint = getLinePaint()
+        var prevX = CommonConst.UNDEFINED.toFloat()
+        var prevY = CommonConst.UNDEFINED.toFloat()
+        for (index in 0 until WEEKDAYS_NUMBER) {
+            val item = if(values.size <= index) 0 else values[index]
+
+            val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
+
+            val currentX =
+                divisionLeft + (divisionWidth / 2F)
+
+            var currentY = getGraphTop()
+            if (item >= params.minValue && item <= params.maxValue) {
+                currentY =
+                    getGraphBottom() - (getGraphHeight() / (params.maxValue / item.toFloat()))
+            }
+
+            nodePaint.color = getColor(android.R.color.holo_red_light)
+            canvas.drawCircle(currentX, currentY, 40F, nodePaint)
+
+            //nodePaint.color = getColor(android.R.color.holo_blue_bright)
+            //canvas.drawCircle(currentX, currentY, 16F, nodePaint)
+
+            nodePaint.color = getColor(android.R.color.black)
+            canvas.drawCircle(currentX, currentY, 15F, nodePaint)
         }
     }
 
