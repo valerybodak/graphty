@@ -146,7 +146,7 @@ class WeekLineGraph @JvmOverloads constructor(
         val valueTitle = value.toString()
         valuePaint.getTextBounds(valueTitle, 0, valueTitle.length, textBoundWeekday)
 
-        val valueTop = (height - params.weekdayScaleHeightPx) / 2F
+        val valueTop = ((height - params.weekdayScaleHeightPx) / 2F) + (textBoundWeekday.height() / 2F)
         val valueLeft = params.valueScaleWidthPx - textBoundWeekday.width()
         canvas.drawText(
             valueTitle,
