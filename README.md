@@ -35,3 +35,4 @@ minValue | Int | Min value to display on scale. In case is not specified the min
 maxValue | Int | Max value to display on scale. In case is not specified the max value from values list will be applied
 enableGuidelines | Boolean | Enable / Disable vertical guidelines
 lineWidth | Float | The width of graph's line
+guidelineWidth | Float | The width of guideline
