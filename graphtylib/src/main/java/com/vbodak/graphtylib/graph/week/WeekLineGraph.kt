@@ -11,10 +11,6 @@ import androidx.core.content.ContextCompat
 import com.vbodak.graphtylib.common.CommonConst
 import java.util.*
 
-enum class GraphComponent {
-    LINE, GUIDELINE, NODE
-}
-
 enum class NodesMode {
     NONE, ALL, MAX
 }
@@ -102,7 +98,7 @@ class WeekLineGraph @JvmOverloads constructor(
         }
     }
 
-    private fun getGraphPoints(coordinates: (value: Int, x: Float, y: Float) -> Unit) {
+    private fun getGraphPoints(coordinates: (index: Int, value: Int, x: Float, y: Float) -> Unit) {
         val divisionWidth = getVerticalDivisionWidth()
         for (index in 0 until WEEKDAYS_NUMBER) {
             val value = if (values.size <= index) 0 else values[index]
@@ -113,12 +109,12 @@ class WeekLineGraph @JvmOverloads constructor(
 
             val currentY = getPointY(value)
 
-            coordinates.invoke(value, currentX, currentY)
+            coordinates.invoke(index, value, currentX, currentY)
         }
     }
 
     private fun drawGuidelines(canvas: Canvas) {
-        getGraphPoints { _, x, y ->
+        getGraphPoints { _, _, x, y ->
             val path = Path()
             path.moveTo(x, y)
             path.lineTo(x, height - params.weekdayScaleHeightPx)
@@ -127,28 +123,13 @@ class WeekLineGraph @JvmOverloads constructor(
     }
 
     private fun drawLine(canvas: Canvas) {
-        val divisionWidth = getVerticalDivisionWidth()
-        val linePaint = getLinePaint()
-        var prevX = CommonConst.UNDEFINED.toFloat()
-        var prevY = CommonConst.UNDEFINED.toFloat()
-        for (index in 0 until WEEKDAYS_NUMBER) {
-            val item = if (values.size <= index) 0 else values[index]
-
-            val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
-
-            val currentX = divisionLeft + (divisionWidth / 2F)
-
-            val currentY = getPointY(item)
-
+        val path = Path()
+        getGraphPoints { index, _, x, y ->
             if (index == 0) {
-                //the first point
-                prevX = currentX
-                prevY = currentY
+                path.moveTo(x, y)
             } else {
-                canvas.drawLine(prevX, prevY, currentX, currentY, linePaint)
-
-                prevX = currentX
-                prevY = currentY
+                path.lineTo(x, y)
+                canvas.drawPath(path, getLinePaint())
             }
         }
     }
@@ -220,7 +201,7 @@ class WeekLineGraph @JvmOverloads constructor(
     }
 
     private fun drawNodes(canvas: Canvas) {
-        getGraphPoints { value, x, y ->
+        getGraphPoints { _, value, x, y ->
             if (params.nodesMode == NodesMode.ALL || (params.nodesMode == NodesMode.MAX && value == values.max())) {
                 //outer circle
                 nodePaint.color = getColor(params.lineColor)
