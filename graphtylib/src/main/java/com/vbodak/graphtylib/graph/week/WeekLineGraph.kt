@@ -98,14 +98,14 @@ class WeekLineGraph @JvmOverloads constructor(
         }
     }
 
-    private fun getGraphPoints(itemCallback: (index: Int, value: Int, x: Float, y: Float) -> Unit) {
+    private fun getGraphPoints(pointCallback: (index: Int, value: Int, x: Float, y: Float) -> Unit) {
         val divisionWidth = getVerticalDivisionWidth()
         for (index in 0 until WEEKDAYS_NUMBER) {
             val value = if (values.size <= index) 0 else values[index]
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
             val currentX = divisionLeft + (divisionWidth / 2F)
             val currentY = getPointY(value)
-            itemCallback.invoke(index, value, currentX, currentY)
+            pointCallback.invoke(index, value, currentX, currentY)
         }
     }
 
