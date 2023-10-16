@@ -1,6 +1,9 @@
 # Graphty
 Android Library to display graphs
 
+![graphty_bg](https://github.com/valerybodak/graphty/assets/26433088/0cba9c28-8f4b-4a66-beaf-dec1044d93da)
+
+
 ## Installation
 ### Step 1. Add the JitPack repository to your build file 
 Add it in your root build.gradle at the end of repositories:
