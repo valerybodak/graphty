@@ -91,28 +91,13 @@ class WeekLineGraph @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         if (values.isNotEmpty()) {
             if (params.enableGuidelines) {
-                getGraphPoints { _, x, y ->
-                    val path = Path()
-                    path.moveTo(x, y)
-                    path.lineTo(x, height - params.weekdayScaleHeightPx)
-                    canvas.drawPath(path, guidelinePaint)
-                }
+                drawGuidelines(canvas)
             }
             drawLine(canvas)
             drawScaleValues(canvas)
             drawScaleWeekdays(canvas)
             if (params.nodesMode != NodesMode.NONE) {
-                getGraphPoints { value, x, y ->
-                    if (params.nodesMode == NodesMode.ALL || (params.nodesMode == NodesMode.MAX && value == values.max())) {
-                        //outer circle
-                        nodePaint.color = getColor(params.lineColor)
-                        canvas.drawCircle(x, y, params.nodeRadiusPx, nodePaint)
-
-                        //inner circle
-                        nodePaint.color = getColor(params.nodeFillColor)
-                        canvas.drawCircle(x, y, params.nodeRadiusPx - params.lineWidth, nodePaint)
-                    }
-                }
+                drawNodes(canvas)
             }
         }
     }
@@ -133,30 +118,11 @@ class WeekLineGraph @JvmOverloads constructor(
     }
 
     private fun drawGuidelines(canvas: Canvas) {
-        val divisionWidth = getVerticalDivisionWidth()
-        for (index in 0 until WEEKDAYS_NUMBER) {
-            val item = if (values.size <= index) 0 else values[index]
-
-            val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
-
-            val currentX = divisionLeft + (divisionWidth / 2F)
-
-            val currentY = getPointY(item)
-
+        getGraphPoints { _, x, y ->
             val path = Path()
-            path.moveTo(currentX, currentY)
-            path.lineTo(currentX, height - params.weekdayScaleHeightPx)
-
-            val p1 = Paint(ANTI_ALIAS_FLAG)
-            p1.style = Paint.Style.STROKE
-            p1.strokeWidth = params.guidelineWidth
-
-            val p2 = Paint(p1)
-            p2.color = getColor(params.guidelineColor)
-            p2.pathEffect =
-                DashPathEffect(floatArrayOf(4F, 8F), 0F)
-
-            canvas.drawPath(path, p2)
+            path.moveTo(x, y)
+            path.lineTo(x, height - params.weekdayScaleHeightPx)
+            canvas.drawPath(path, guidelinePaint)
         }
     }
 
@@ -254,27 +220,15 @@ class WeekLineGraph @JvmOverloads constructor(
     }
 
     private fun drawNodes(canvas: Canvas) {
-        val nodePaint = Paint(ANTI_ALIAS_FLAG)
-        nodePaint.style = Paint.Style.FILL
-        val divisionWidth = getVerticalDivisionWidth()
-        for (index in 0 until WEEKDAYS_NUMBER) {
-            val item = if (values.size <= index) 0 else values[index]
-
-            val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
-
-            val currentX =
-                divisionLeft + (divisionWidth / 2F)
-
-            val currentY = getPointY(item)
-
-            if (params.nodesMode == NodesMode.ALL || (params.nodesMode == NodesMode.MAX && item == values.max())) {
+        getGraphPoints { value, x, y ->
+            if (params.nodesMode == NodesMode.ALL || (params.nodesMode == NodesMode.MAX && value == values.max())) {
                 //outer circle
                 nodePaint.color = getColor(params.lineColor)
-                canvas.drawCircle(currentX, currentY, params.nodeRadiusPx, nodePaint)
+                canvas.drawCircle(x, y, params.nodeRadiusPx, nodePaint)
 
                 //inner circle
                 nodePaint.color = getColor(params.nodeFillColor)
-                canvas.drawCircle(currentX, currentY, params.nodeRadiusPx - params.lineWidth, nodePaint)
+                canvas.drawCircle(x, y, params.nodeRadiusPx - params.lineWidth, nodePaint)
             }
         }
     }
