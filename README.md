@@ -26,7 +26,7 @@ implementation 'com.github.valerybodak:Graphty:1.0.0'
 
 ### 1. WeekLineGraph
 
-<img src="https://github.com/valerybodak/graphty/assets/26433088/1b4f0d2b-f4d8-4367-b36a-f910f941d96f" width="33%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/f94abd1a-09da-4d3d-90b7-f56c759c1dd2" width="33%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/54cad739-db10-4300-85f4-647f2d2e1430" width="33%"></img>
+<img src="https://github.com/valerybodak/graphty/assets/26433088/1b4f0d2b-f4d8-4367-b36a-f910f941d96f" width="30%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/f94abd1a-09da-4d3d-90b7-f56c759c1dd2" width="30%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/54cad739-db10-4300-85f4-647f2d2e1430" width="30%"></img>
 
 ```Kotlin
 <com.vbodak.graphtylib.graph.week.WeekLineGraph
