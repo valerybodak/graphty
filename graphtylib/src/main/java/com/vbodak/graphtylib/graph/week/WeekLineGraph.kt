@@ -126,7 +126,7 @@ class WeekLineGraph @JvmOverloads constructor(
 
             val currentY = getPointY(item)
 
-            if (prevX == CommonConst.UNDEFINED.toFloat() && prevY == CommonConst.UNDEFINED.toFloat()) {
+            if (index == 0) {
                 //the first point
                 prevX = currentX
                 prevY = currentY
