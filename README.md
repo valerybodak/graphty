@@ -26,7 +26,7 @@ implementation 'com.github.valerybodak:Graphty:1.0.0'
 
 ### 1. WeekLineGraph
 
-<img src="https://github.com/valerybodak/graphty/assets/26433088/fb4f93aa-3322-432e-a4c1-83d2ecb918ad" width="30%"></img> <img src="https://user-images.githubusercontent.com/26433088/201077885-0114a3e2-e45f-4127-815f-3bb079c4482c.jpg" width="30%"></img> <img src="https://user-images.githubusercontent.com/26433088/201077887-377125e1-06d8-452d-8009-8e8d5a401251.jpg" width="30%"></img> <img src="https://user-images.githubusercontent.com/26433088/201077889-a6af344a-2ef7-4779-a220-f5efdb88da80.jpg" width="30%"></img> <img src="https://user-images.githubusercontent.com/26433088/201077890-6cea6868-70a7-4329-819e-c89b04fcb9c4.jpg" width="30%"></img> <img src="https://user-images.githubusercontent.com/26433088/201077891-e61b0906-38cc-4f5d-adb5-4a7f1de80b5f.jpg" width="30%"></img> <img src="https://user-images.githubusercontent.com/26433088/211999513-a15b2c97-4048-43aa-b265-74a74af67472.png" width="30%"></img> <img src="https://user-images.githubusercontent.com/26433088/211999581-3e4453f9-1a2b-4008-93b2-0eb39e805096.png" width="30%"></img>
+<img src="https://github.com/valerybodak/graphty/assets/26433088/1b4f0d2b-f4d8-4367-b36a-f910f941d96f" width="30%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/8b0944e0-2fa4-483e-a6b4-5bfe32a1016c" width="30%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/b01da94a-c530-4a3a-9591-d28e12e4cc5c" width="30%"></img>
 
 ```Kotlin
 <com.vbodak.graphtylib.graph.week.WeekLineGraph
