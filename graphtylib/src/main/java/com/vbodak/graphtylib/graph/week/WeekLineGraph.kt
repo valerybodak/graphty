@@ -11,6 +11,10 @@ import androidx.core.content.ContextCompat
 import com.vbodak.graphtylib.common.CommonConst
 import java.util.*
 
+enum class GraphComponent {
+    LINE, GUIDELINE, NODE
+}
+
 enum class NodesMode {
     NONE, ALL, MAX
 }
@@ -59,6 +63,22 @@ class WeekLineGraph @JvmOverloads constructor(
     private var params: Params = Params()
     private var values: List<Int> = emptyList()
 
+    private val guidelinePaint: Paint by lazy {
+        val paint = Paint(ANTI_ALIAS_FLAG)
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = params.guidelineWidth
+        paint.color = getColor(params.guidelineColor)
+        paint.pathEffect =
+            DashPathEffect(floatArrayOf(4F, 8F), 0F)
+        paint
+    }
+
+    private val nodePaint: Paint by lazy {
+        val paint = Paint(ANTI_ALIAS_FLAG)
+        paint.style = Paint.Style.FILL
+        paint
+    }
+
     fun setup(params: Params) {
         this.params = params
     }
@@ -71,20 +91,48 @@ class WeekLineGraph @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         if (values.isNotEmpty()) {
             if (params.enableGuidelines) {
-                drawGuidelines(canvas)
+                getGraphPoints { _, x, y ->
+                    val path = Path()
+                    path.moveTo(x, y)
+                    path.lineTo(x, height - params.weekdayScaleHeightPx)
+                    canvas.drawPath(path, guidelinePaint)
+                }
             }
             drawLine(canvas)
             drawScaleValues(canvas)
             drawScaleWeekdays(canvas)
             if (params.nodesMode != NodesMode.NONE) {
-                drawNodes(canvas)
+                getGraphPoints { value, x, y ->
+                    if (params.nodesMode == NodesMode.ALL || (params.nodesMode == NodesMode.MAX && value == values.max())) {
+                        //outer circle
+                        nodePaint.color = getColor(params.lineColor)
+                        canvas.drawCircle(x, y, params.nodeRadiusPx, nodePaint)
+
+                        //inner circle
+                        nodePaint.color = getColor(params.nodeFillColor)
+                        canvas.drawCircle(x, y, params.nodeRadiusPx - params.lineWidth, nodePaint)
+                    }
+                }
             }
         }
     }
 
+    private fun getGraphPoints(coordinates: (value: Int, x: Float, y: Float) -> Unit) {
+        val divisionWidth = getVerticalDivisionWidth()
+        for (index in 0 until WEEKDAYS_NUMBER) {
+            val value = if (values.size <= index) 0 else values[index]
+
+            val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
+
+            val currentX = divisionLeft + (divisionWidth / 2F)
+
+            val currentY = getPointY(value)
+
+            coordinates.invoke(value, currentX, currentY)
+        }
+    }
+
     private fun drawGuidelines(canvas: Canvas) {
-        val nodePaint = Paint(ANTI_ALIAS_FLAG)
-        nodePaint.style = Paint.Style.FILL
         val divisionWidth = getVerticalDivisionWidth()
         for (index in 0 until WEEKDAYS_NUMBER) {
             val item = if (values.size <= index) 0 else values[index]

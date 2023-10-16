@@ -65,9 +65,8 @@ class MainActivity : AppCompatActivity() {
                 maxValue = 100,
                 lineColor = android.R.color.black,
                 lineWidth= 4F,
-                nodeRadiusPx = 20F,
-                nodeFillColor = android.R.color.background_light,
-                nodesMode = NodesMode.MAX,
+                nodeRadiusPx = 24F,
+                nodeFillColor = android.R.color.holo_red_light,
                 valueScaleWidthPx = 82F,
                 weekdayStart = Calendar.SUNDAY,
                 weekdayNameMap = mapOf(
@@ -90,6 +89,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getValues2(): List<Int>{
-        return listOf(7, 71, 69, 65, 93, 20, 27)
+        return listOf(20, 71, 89, 65, 93, 20, 27)
     }
 }
