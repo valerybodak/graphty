@@ -13,7 +13,7 @@ class BarGraph @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private val paint: Paint by lazy {
+    private val barPaint: Paint by lazy {
         val paint = Paint()
         paint.style = Paint.Style.FILL
         //paint.shader = LinearGradient(0f, 0f, 0f, height.toFloat(), getColor(color), getColor(color), Shader.TileMode.MIRROR)
@@ -35,9 +35,7 @@ class BarGraph @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         if (bars.isNotEmpty()) {
-            for(bar in bars){
-                drawBar(canvas, bar)
-            }
+            drawBars(canvas)
             drawScaleValues(canvas)
             drawScaleTitles(canvas)
         }
@@ -54,14 +52,30 @@ class BarGraph @JvmOverloads constructor(
         }*/
     }
 
-    private fun drawBar(canvas: Canvas, bar: Bar){
+    private fun drawBars(canvas: Canvas){
         val divisionWidth = getVerticalDivisionWidth()
-        for (index in bar.values.indices) {
-            val value = bar.values[index]
-            val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
-            val barLeft = divisionLeft + (divisionWidth / 2F) - params.barWidthPx / 2F
-            val barTop = getBarTop(value)
-            canvas.drawRoundRect(barLeft, barTop, (barLeft + params.barWidthPx), getGraphBottom(), 10F, 10F, paint)
+        for(barIndex in bars.indices) {
+            val bar = bars[barIndex]
+            for (valueIndex in bar.values.indices) {
+                val value = bar.values[valueIndex]
+                var barColor: Int = Color.BLACK
+                if (params.barColors.size >= bar.values.size) {
+                    barColor = getColor(params.barColors[valueIndex])
+                }
+                val divisionLeft = barIndex * divisionWidth + params.valueScaleWidthPx
+                val barLeft = divisionLeft + (divisionWidth / 2F) - params.barWidthPx / 2F
+                val barTop = getBarTop(value)
+                barPaint.color = barColor
+                canvas.drawRoundRect(
+                    barLeft,
+                    barTop,
+                    (barLeft + params.barWidthPx),
+                    getGraphBottom(),
+                    10F,
+                    10F,
+                    barPaint
+                )
+            }
         }
     }
 
