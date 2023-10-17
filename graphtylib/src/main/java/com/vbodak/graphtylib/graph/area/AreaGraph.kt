@@ -38,8 +38,8 @@ class AreaGraph @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         if (areas.isNotEmpty()) {
             for(area in areas){
+                val path = Path()
                 getGraphPoints(area) { index, _, x, y ->
-                    val path = Path()
                     if (index == 0) {
                         path.moveTo(x, y)
                     } else {
@@ -48,7 +48,7 @@ class AreaGraph @JvmOverloads constructor(
                     }
                 }
             }
-            drawLine(canvas)
+                //drawLine(canvas)
             drawScaleValues(canvas)
             drawScaleWeekdays(canvas)
         }
@@ -176,7 +176,7 @@ class AreaGraph @JvmOverloads constructor(
     }
 
     private fun getVerticalDivisionWidth(): Float {
-        return (width - params.valueScaleWidthPx) / WEEKDAYS_NUMBER
+        return (width - params.valueScaleWidthPx) / 2 //TODO replace 2 with the different values size
     }
 
     private fun getValueScaleTextHeight(): Int {
@@ -213,13 +213,22 @@ class AreaGraph @JvmOverloads constructor(
     }
 
     private fun getMinValue(): Int {
-        return areas.map { it.values.min() }.min()
+        val min = areas.map { it.values.min() }.min()
+        return if (params.minValue >= min) {
+            min
+        } else {
+            params.minValue
+        }
     }
 
     private fun getMaxValue(): Int {
-        return areas.map { it.values.max() }.max()
+        val max = areas.map { it.values.max() }.max()
+        return if (params.maxValue <= max) {
+            max
+        } else {
+            params.maxValue
+        }
     }
-
     private fun getGraphHeight(): Float {
         return getGraphBottom() - getGraphTop()
     }
