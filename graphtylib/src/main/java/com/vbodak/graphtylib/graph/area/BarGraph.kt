@@ -27,8 +27,8 @@ class BarGraph @JvmOverloads constructor(
         this.params = params
     }
 
-    fun draw(areas: List<Bar>) {
-        this.bars = areas
+    fun draw(bars: List<Bar>) {
+        this.bars = bars
         invalidate()
     }
 
