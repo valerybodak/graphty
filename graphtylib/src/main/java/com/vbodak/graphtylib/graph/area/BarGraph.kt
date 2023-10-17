@@ -39,7 +39,7 @@ class BarGraph @JvmOverloads constructor(
                 drawArea(canvas, area)
             }
             drawScaleValues(canvas)
-            drawScaleWeekdays(canvas)
+            drawScaleTitles(canvas)
         }
     }
 
@@ -127,9 +127,8 @@ class BarGraph @JvmOverloads constructor(
         return textBound
     }
 
-    private fun drawScaleWeekdays(canvas: Canvas) {
+    private fun drawScaleTitles(canvas: Canvas) {
         val divisionWidth = getVerticalDivisionWidth()
-        //val longestValuesList = bars.map { it.values }.maxBy { it.size }
         for (index in bars.indices) {
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
