@@ -1,14 +1,16 @@
 package com.vbodak.graphtylib.graph.area
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.Paint.ANTI_ALIAS_FLAG
+import android.graphics.Path
+import android.graphics.Rect
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import com.vbodak.graphtylib.common.CommonConst
 import java.util.*
 
 class AreaGraph @JvmOverloads constructor(
@@ -35,6 +37,17 @@ class AreaGraph @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         if (areas.isNotEmpty()) {
+            for(area in areas){
+                getGraphPoints(area) { index, _, x, y ->
+                    val path = Path()
+                    if (index == 0) {
+                        path.moveTo(x, y)
+                    } else {
+                        path.lineTo(x, y)
+                        canvas.drawPath(path, getLinePaint())
+                    }
+                }
+            }
             drawLine(canvas)
             drawScaleValues(canvas)
             drawScaleWeekdays(canvas)
@@ -200,21 +213,11 @@ class AreaGraph @JvmOverloads constructor(
     }
 
     private fun getMinValue(): Int {
-        return 0
-        /*return if (params.minValue >= values.min()) {
-            values.min()
-        } else {
-            params.minValue
-        }*/
+        return areas.map { it.values.min() }.min()
     }
 
     private fun getMaxValue(): Int {
-        return 0
-        /*return if (params.maxValue <= values.max()) {
-            values.max()
-        } else {
-            params.maxValue
-        }*/
+        return areas.map { it.values.max() }.max()
     }
 
     private fun getGraphHeight(): Float {
