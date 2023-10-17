@@ -17,7 +17,6 @@ class BarGraph @JvmOverloads constructor(
         val paint = Paint()
         paint.style = Paint.Style.FILL
         //paint.shader = LinearGradient(0f, 0f, 0f, height.toFloat(), getColor(color), getColor(color), Shader.TileMode.MIRROR)
-        //paint.strokeWidth = 6F
         paint
     }
 
