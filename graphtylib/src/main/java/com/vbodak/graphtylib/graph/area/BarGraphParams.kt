@@ -24,5 +24,6 @@ data class BarGraphParams(
     @ColorRes
     val weekdayTextColor: Int = android.R.color.black,
     @ColorRes
-    val barColors: List<Int> = emptyList()
+    val barColors: List<Int> = listOf(android.R.color.holo_green_dark, android.R.color.holo_red_light, android.R.color.holo_blue_dark),
+    val barWidthPx: Float = 40F
 )

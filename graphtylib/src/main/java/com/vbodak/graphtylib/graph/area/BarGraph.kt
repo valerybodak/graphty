@@ -35,54 +35,33 @@ class BarGraph @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         if (bars.isNotEmpty()) {
-            for(area in bars){
-                drawArea(canvas, area)
+            for(bar in bars){
+                drawBar(canvas, bar)
             }
             drawScaleValues(canvas)
             drawScaleTitles(canvas)
         }
     }
 
-    private fun getGraphPoints(area: Bar, pointCallback: (index: Int, value: Int, x: Float, y: Float) -> Unit) {
+    private fun getBarPoints(bar: Bar, pointCallback: (index: Int, value: Int, barLeft: Float, barTop: Float) -> Unit) {
         /*val divisionWidth = getVerticalDivisionWidth()
-        for (index in area.values.indices) {
-            val value = area.values[index]
+        for (index in bar.values.indices) {
+            val value = bar.values[index]
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
-            val currentX = divisionLeft + (divisionWidth / 2F)
-            val currentY = getPointY(value.second)
-            pointCallback.invoke(index, value.second, currentX, currentY)
+            val barLeft = divisionLeft + (divisionWidth / 2F) - params.barWidthPx / 2F
+            val barTop = getBarTop(value)
+            canvas.drawRoundRect()
         }*/
     }
 
-    private fun drawArea(canvas: Canvas, area: Bar){
-        val path = Path()
-        getGraphPoints(area) { index, _, x, y ->
-            if (index == 0) {
-                path.moveTo(x, getGraphBottom())
-                path.lineTo(x, y)
-            } else {
-                path.lineTo(x, y)
-                if(index == area.values.lastIndex){
-                    path.lineTo(x, getGraphBottom())
-                    //path.close()
-                }
-                //val paint = Paint()
-               //paint.style = Paint.Style.FILL_AND_STROKE
-                //paint.setAntiAlias(true);
-                //paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.ADD));
-                //paint.color = getColor(area.backgroundColor)
-                //paint.setAntiAlias(true);
-                //paint.setXfermode( PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                //paint.shader = LinearGradient(0f, 0f, 0f, getGraphBottom(), getColor(area.backgroundColor), Color.WHITE, Shader.TileMode.MIRROR)
-                /*paint.shader = LinearGradient(
-                    0, 0, 100, 100, Color.argb(50F, 23F, 65F, 14F),
-                    Color.argb(50F, 3F, 67F, 78F), Shader.TileMode.REPEAT
-                )*/
-                //paint.alpha = 0x80
-                //canvas.save()
-                canvas.drawPath(path, paint)
-                //canvas.save()
-            }
+    private fun drawBar(canvas: Canvas, bar: Bar){
+        val divisionWidth = getVerticalDivisionWidth()
+        for (index in bar.values.indices) {
+            val value = bar.values[index]
+            val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
+            val barLeft = divisionLeft + (divisionWidth / 2F) - params.barWidthPx / 2F
+            val barTop = getBarTop(value)
+            canvas.drawRoundRect(barLeft, barTop, (barLeft + params.barWidthPx), getGraphBottom(), 0F, 0F, paint)
         }
     }
 
@@ -151,7 +130,7 @@ class BarGraph @JvmOverloads constructor(
         }
     }
 
-    private fun getPointY(value: Int): Float {
+    private fun getBarTop(value: Int): Float {
         val minValue = getMinValue()
         val maxValue = getMaxValue()
         var y = getGraphTop()
