@@ -26,5 +26,6 @@ data class BarGraphParams(
         android.R.color.holo_red_light,
         android.R.color.holo_blue_dark
     ),
-    val barWidthPx: Float = 56F
+    val barWidthPx: Float = 40F,
+    val barCornerRadiusPx: Float = 20F
 )

@@ -70,8 +70,8 @@ class BarGraph @JvmOverloads constructor(
                         barTop,
                         barRight,
                         getGraphBottom(),
-                        10F,
-                        10F,
+                        params.barCornerRadiusPx,
+                        params.barCornerRadiusPx,
                         barPaint
                     )
                 }
