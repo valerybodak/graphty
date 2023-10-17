@@ -58,16 +58,18 @@ class BarGraph @JvmOverloads constructor(
             val bar = bars[barIndex]
             for (valueIndex in bar.values.indices) {
                 if (params.barColors.size >= bar.values.size) {
+                    //draw bar only in case the bar's color is set
                     val value = bar.values[valueIndex]
                     val barColor = getColor(params.barColors[valueIndex])
                     val divisionLeft = barIndex * divisionWidth + params.valueScaleWidthPx
                     val barLeft = divisionLeft + (divisionWidth / 2F) - params.barWidthPx / 2F
                     val barTop = getBarTop(value)
+                    val barRight = barLeft + params.barWidthPx
                     barPaint.color = barColor
                     canvas.drawRoundRect(
                         barLeft,
                         barTop,
-                        (barLeft + params.barWidthPx),
+                        barRight,
                         getGraphBottom(),
                         10F,
                         10F,
