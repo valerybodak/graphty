@@ -2,7 +2,6 @@ package com.vbodak.graphtylib.graph.area
 
 import androidx.annotation.ColorRes
 import com.vbodak.graphtylib.common.CommonConst
-import java.util.*
 
 data class BarGraphParams(
     /**
@@ -17,13 +16,15 @@ data class BarGraphParams(
     val valueTextSize: Float = 36F,
     @ColorRes
     val valueTextColor: Int = android.R.color.black,
-    val weekdayStart: Int = Calendar.MONDAY,
-    val weekdayNameMap: Map<Int, String> = emptyMap(),
-    val weekdayScaleHeightPx: Float = 70F,
-    val weekdayTextSize: Float = 36F,
+    val titleScaleHeightPx: Float = 70F,
+    val titleTextSize: Float = 36F,
     @ColorRes
-    val weekdayTextColor: Int = android.R.color.black,
+    val titleTextColor: Int = android.R.color.black,
     @ColorRes
-    val barColors: List<Int> = listOf(android.R.color.holo_green_dark, android.R.color.holo_red_light, android.R.color.holo_blue_dark),
+    val barColors: List<Int> = listOf(
+        android.R.color.holo_green_dark,
+        android.R.color.holo_red_light,
+        android.R.color.holo_blue_dark
+    ),
     val barWidthPx: Float = 56F
 )

@@ -90,11 +90,11 @@ class BarGraph @JvmOverloads constructor(
         drawValue(canvas, maxValueTop, maxValue)
 
         //draw min value
-        val minValueTop = height - params.weekdayScaleHeightPx
+        val minValueTop = height - params.titleScaleHeightPx
         drawValue(canvas, minValueTop, minValue)
 
         //draw mid value
-        val midValueTop = (height - params.weekdayScaleHeightPx) / 2F + (getValueTextBound(midValue).height() / 2F)
+        val midValueTop = (height - params.titleScaleHeightPx) / 2F + (getValueTextBound(midValue).height() / 2F)
         drawValue(canvas, midValueTop, midValue)
     }
 
@@ -131,7 +131,7 @@ class BarGraph @JvmOverloads constructor(
             val valueTitle = bars[index].title
             weekdayPaint.getTextBounds(valueTitle, 0, valueTitle.length, textBoundWeekday)
 
-            val weekdayTop = height - (params.weekdayScaleHeightPx / 2) + (textBoundWeekday.height() / 2)
+            val weekdayTop = height - (params.titleScaleHeightPx / 2) + (textBoundWeekday.height() / 2)
 
             val weekdayLeft =
                 divisionLeft + (divisionWidth / 2) - (textBoundWeekday.width() / 2)
@@ -181,8 +181,8 @@ class BarGraph @JvmOverloads constructor(
     private fun getWeekdayPaint(): Paint {
         val paint = TextPaint()
         paint.isAntiAlias = true
-        paint.textSize = params.weekdayTextSize
-        paint.color = getColor(params.weekdayTextColor)
+        paint.textSize = params.titleTextSize
+        paint.color = getColor(params.titleTextColor)
         return paint
     }
 
@@ -220,7 +220,7 @@ class BarGraph @JvmOverloads constructor(
     }
 
     private fun getGraphBottom(): Float {
-        return height - params.weekdayScaleHeightPx - (getValueScaleTextHeight() / 2F)
+        return height - params.titleScaleHeightPx - (getValueScaleTextHeight() / 2F)
     }
 
     private fun getColor(@ColorRes colorResource: Int): Int {
