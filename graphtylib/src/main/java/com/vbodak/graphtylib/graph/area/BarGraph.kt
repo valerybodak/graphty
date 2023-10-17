@@ -61,7 +61,7 @@ class BarGraph @JvmOverloads constructor(
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
             val barLeft = divisionLeft + (divisionWidth / 2F) - params.barWidthPx / 2F
             val barTop = getBarTop(value)
-            canvas.drawRoundRect(barLeft, barTop, (barLeft + params.barWidthPx), getGraphBottom(), 0F, 0F, paint)
+            canvas.drawRoundRect(barLeft, barTop, (barLeft + params.barWidthPx), getGraphBottom(), 10F, 10F, paint)
         }
     }
 
