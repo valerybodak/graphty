@@ -44,11 +44,10 @@ class AreaGraph @JvmOverloads constructor(
                         path.moveTo(x, y)
                     } else {
                         path.lineTo(x, y)
-                        canvas.drawPath(path, getLinePaint())
+                        canvas.drawPath(path, getLinePaint(area.lineColor))
                     }
                 }
             }
-                //drawLine(canvas)
             drawScaleValues(canvas)
             drawScaleWeekdays(canvas)
         }
@@ -60,21 +59,9 @@ class AreaGraph @JvmOverloads constructor(
             val value = area.values[index]
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
             val currentX = divisionLeft + (divisionWidth / 2F)
-            val currentY = getPointY(value)
-            pointCallback.invoke(index, value, currentX, currentY)
+            val currentY = getPointY(value.second)
+            pointCallback.invoke(index, value.second, currentX, currentY)
         }
-    }
-
-    private fun drawLine(canvas: Canvas) {
-        /*val path = Path()
-        getGraphPoints { index, _, x, y ->
-            if (index == 0) {
-                path.moveTo(x, y)
-            } else {
-                path.lineTo(x, y)
-                canvas.drawPath(path, getLinePaint())
-            }
-        }*/
     }
 
     private fun drawScaleValues(canvas: Canvas) {
@@ -120,14 +107,15 @@ class AreaGraph @JvmOverloads constructor(
 
     private fun drawScaleWeekdays(canvas: Canvas) {
         val divisionWidth = getVerticalDivisionWidth()
-        val weekdayTitles = getWeekdayTitleList()
-        for (index in 0 until WEEKDAYS_NUMBER) {
+        //val weekdayTitles = getWeekdayTitleList()
+        val longestValuesList = areas.map { it.values }.maxBy { it.size }
+        for (index in longestValuesList.indices) {
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
             val weekdayPaint = getWeekdayPaint()
             val textBoundWeekday = Rect()
-            val weekdayTitle = weekdayTitles[index]
-            weekdayPaint.getTextBounds(weekdayTitle, 0, weekdayTitle.length, textBoundWeekday)
+            val valueTitle = longestValuesList[index].first
+            weekdayPaint.getTextBounds(valueTitle, 0, valueTitle.length, textBoundWeekday)
 
             val weekdayTop = height - (params.weekdayScaleHeightPx / 2) + (textBoundWeekday.height() / 2)
 
@@ -135,7 +123,7 @@ class AreaGraph @JvmOverloads constructor(
                 divisionLeft + (divisionWidth / 2) - (textBoundWeekday.width() / 2)
 
             canvas.drawText(
-                weekdayTitle,
+                valueTitle,
                 weekdayLeft,
                 weekdayTop,
                 weekdayPaint
@@ -154,7 +142,7 @@ class AreaGraph @JvmOverloads constructor(
         return y
     }
 
-    private fun getWeekdayTitleList(): List<String> {
+    /*private fun getWeekdayTitleList(): List<String> {
         val titles = mutableListOf<String>()
         val currentDay = Calendar.getInstance()
         while (titles.size != WEEKDAYS_NUMBER) {
@@ -169,13 +157,14 @@ class AreaGraph @JvmOverloads constructor(
             }
         }
         return titles
-    }
+    }*/
 
     private fun resolveWeekdayName(weekday: Int): String {
         return params.weekdayNameMap[weekday].toString()
     }
 
     private fun getVerticalDivisionWidth(): Float {
+        //divisions size = values list size with the max size
         val divisionsSize = areas.map { it.values }.maxBy { it.size }.size
         return (width - params.valueScaleWidthPx) / divisionsSize
     }
@@ -189,11 +178,11 @@ class AreaGraph @JvmOverloads constructor(
         return textBound.height()
     }
 
-    private fun getLinePaint(): Paint {
+    private fun getLinePaint(@ColorRes color: Int): Paint {
         val paint = Paint(ANTI_ALIAS_FLAG)
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = params.lineWidth
-        paint.color = getColor(params.lineColor)
+        paint.color = getColor(color)
         return paint
     }
 
@@ -214,7 +203,7 @@ class AreaGraph @JvmOverloads constructor(
     }
 
     private fun getMinValue(): Int {
-        val min = areas.map { it.values.min() }.min()
+        val min = areas.map { it.values.map { it.second }.min() }.min()
         return if (params.minValue >= min) {
             min
         } else {
@@ -223,7 +212,7 @@ class AreaGraph @JvmOverloads constructor(
     }
 
     private fun getMaxValue(): Int {
-        val max = areas.map { it.values.max() }.max()
+        val max = areas.map { it.values.map { it.second }.max() }.max()
         return if (params.maxValue <= max) {
             max
         } else {

@@ -8,5 +8,5 @@ data class Area(
     val lineColor: Int = android.R.color.black,
     @ColorRes
     val backgroundColor: Int = android.R.color.white,
-    val values: List<Int> = emptyList()
+    val values: List<Pair<String, Int>> = emptyList()
 )
