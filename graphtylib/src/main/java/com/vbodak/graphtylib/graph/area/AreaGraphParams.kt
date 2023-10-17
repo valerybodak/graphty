@@ -13,9 +13,6 @@ data class AreaGraphParams(
      * Max value to display on scale
      */
     val maxValue: Int = CommonConst.UNDEFINED,
-    val lineWidth: Float = 5F,
-    @ColorRes
-    val lineColor: Int = android.R.color.black,
     val valueScaleWidthPx: Float = 100F,
     val valueTextSize: Float = 36F,
     @ColorRes

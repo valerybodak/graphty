@@ -1,30 +1,28 @@
 package com.vbodak.graphtylib.graph.area
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Paint.ANTI_ALIAS_FLAG
-import android.graphics.Path
-import android.graphics.Rect
+import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import java.util.*
 
 class AreaGraph @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    companion object {
-        private const val WEEKDAYS_NUMBER = 7
+    private val paint: Paint by lazy {
+        val paint = Paint()
+        paint.style = Paint.Style.FILL
+        //paint.shader = LinearGradient(0f, 0f, 0f, height.toFloat(), getColor(color), getColor(color), Shader.TileMode.MIRROR)
+        //paint.strokeWidth = 6F
+        paint
     }
 
     private var areas: List<Area> = emptyList()
     private var params: AreaGraphParams = AreaGraphParams()
-    //private var values: List<Int> = emptyList()
 
     fun setup(params: AreaGraphParams) {
         this.params = params
@@ -38,15 +36,7 @@ class AreaGraph @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         if (areas.isNotEmpty()) {
             for(area in areas){
-                val path = Path()
-                getGraphPoints(area) { index, _, x, y ->
-                    if (index == 0) {
-                        path.moveTo(x, y)
-                    } else {
-                        path.lineTo(x, y)
-                        canvas.drawPath(path, getLinePaint(area.lineColor))
-                    }
-                }
+                drawArea(canvas, area)
             }
             drawScaleValues(canvas)
             drawScaleWeekdays(canvas)
@@ -61,6 +51,38 @@ class AreaGraph @JvmOverloads constructor(
             val currentX = divisionLeft + (divisionWidth / 2F)
             val currentY = getPointY(value.second)
             pointCallback.invoke(index, value.second, currentX, currentY)
+        }
+    }
+
+    private fun drawArea(canvas: Canvas, area: Area){
+        val path = Path()
+        getGraphPoints(area) { index, _, x, y ->
+            if (index == 0) {
+                path.moveTo(x, getGraphBottom())
+                path.lineTo(x, y)
+            } else {
+                path.lineTo(x, y)
+                if(index == area.values.lastIndex){
+                    path.lineTo(x, getGraphBottom())
+                    //path.close()
+                }
+                //val paint = Paint()
+               //paint.style = Paint.Style.FILL_AND_STROKE
+                //paint.setAntiAlias(true);
+                //paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.ADD));
+                //paint.color = getColor(area.backgroundColor)
+                //paint.setAntiAlias(true);
+                //paint.setXfermode( PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+                paint.shader = LinearGradient(0f, 0f, 0f, getGraphBottom(), getColor(area.backgroundColor), Color.WHITE, Shader.TileMode.MIRROR)
+                /*paint.shader = LinearGradient(
+                    0, 0, 100, 100, Color.argb(50F, 23F, 65F, 14F),
+                    Color.argb(50F, 3F, 67F, 78F), Shader.TileMode.REPEAT
+                )*/
+                //paint.alpha = 0x80
+                //canvas.save()
+                canvas.drawPath(path, paint)
+                //canvas.save()
+            }
         }
     }
 
@@ -107,7 +129,6 @@ class AreaGraph @JvmOverloads constructor(
 
     private fun drawScaleWeekdays(canvas: Canvas) {
         val divisionWidth = getVerticalDivisionWidth()
-        //val weekdayTitles = getWeekdayTitleList()
         val longestValuesList = areas.map { it.values }.maxBy { it.size }
         for (index in longestValuesList.indices) {
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
@@ -142,31 +163,10 @@ class AreaGraph @JvmOverloads constructor(
         return y
     }
 
-    /*private fun getWeekdayTitleList(): List<String> {
-        val titles = mutableListOf<String>()
-        val currentDay = Calendar.getInstance()
-        while (titles.size != WEEKDAYS_NUMBER) {
-            currentDay.add(Calendar.DAY_OF_WEEK, 1)
-            val weekday = currentDay.get(Calendar.DAY_OF_WEEK)
-            if (weekday == params.weekdayStart) {
-                titles.add(resolveWeekdayName(weekday))
-            } else {
-                if (titles.size > 0) {
-                    titles.add(resolveWeekdayName(weekday))
-                }
-            }
-        }
-        return titles
-    }*/
-
-    private fun resolveWeekdayName(weekday: Int): String {
-        return params.weekdayNameMap[weekday].toString()
-    }
-
     private fun getVerticalDivisionWidth(): Float {
-        //divisions size = values list size with the max size
-        val divisionsSize = areas.map { it.values }.maxBy { it.size }.size
-        return (width - params.valueScaleWidthPx) / divisionsSize
+        //divisions count = values list's size with the max size
+        val divisionsCount = areas.map { it.values }.maxBy { it.size }.size
+        return (width - params.valueScaleWidthPx) / divisionsCount
     }
 
     private fun getValueScaleTextHeight(): Int {
@@ -178,13 +178,14 @@ class AreaGraph @JvmOverloads constructor(
         return textBound.height()
     }
 
-    private fun getLinePaint(@ColorRes color: Int): Paint {
+    /*private fun getAreaPaint(@ColorRes color: Int): Paint {
         val paint = Paint(ANTI_ALIAS_FLAG)
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = params.lineWidth
+        paint.style = Paint.Style.FILL
+        paint.shader = LinearGradient(0f, 0f, 0f, height.toFloat(), getColor(color), Color., Shader.TileMode.MIRROR)
+        paint.strokeWidth = 6F
         paint.color = getColor(color)
         return paint
-    }
+    }*/
 
     private fun getWeekdayPaint(): Paint {
         val paint = TextPaint()
