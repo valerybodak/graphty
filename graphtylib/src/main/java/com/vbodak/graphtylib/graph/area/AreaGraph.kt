@@ -176,7 +176,8 @@ class AreaGraph @JvmOverloads constructor(
     }
 
     private fun getVerticalDivisionWidth(): Float {
-        return (width - params.valueScaleWidthPx) / 2 //TODO replace 2 with the different values size
+        val divisionsSize = areas.map { it.values }.maxBy { it.size }.size
+        return (width - params.valueScaleWidthPx) / divisionsSize
     }
 
     private fun getValueScaleTextHeight(): Int {
