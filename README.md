@@ -61,7 +61,7 @@ binding.weekGraph.setup(
 ...
 
 binding.weekGraph.draw(
-    values = listOf<Int>(32, 176, 33, 568, 7, 65, 43, 56)
+    values = listOf<Int>(32, 176, 33, 568, 7, 65, 43)
 )
 
 ```
