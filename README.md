@@ -90,8 +90,8 @@ weekdayNameMap | Map<Int, String> | The mapping to display the weekday titles. T
 
 ### 2. BarGraph
 
-<img src="https://github.com/valerybodak/graphty/assets/26433088/76c4385b-2f11-460a-87e3-1a61694a85fe" width="30%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/4a20d02f-d48f-4bbb-809c-053d7a26b64b" width="30%"></img>
-<img src="https://github.com/valerybodak/graphty/assets/26433088/6ea85add-61cb-46a8-85d7-e3107d8cba90" width="30%"></img>
+<img src="https://github.com/valerybodak/graphty/assets/26433088/c5afcb65-3e00-48cb-b33a-ea4c5f73dbbd" width="30%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/6ea85add-61cb-46a8-85d7-e3107d8cba90" width="30%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/4a20d02f-d48f-4bbb-809c-053d7a26b64b" width="30%"></img>
+
 
 #### 2.1 Put BarGraph to your xml layout
 
