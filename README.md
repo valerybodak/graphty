@@ -69,8 +69,8 @@ binding.weekGraph.draw(
 #### 1.3 Params
 Property | Type | Description 
 --- | --- | --- 
-minValue | Int | Min value to display on scale. In case is not specified the min value from values list will be applied
-maxValue | Int | Max value to display on scale. In case is not specified the max value from values list will be applied
+minValue | Int | Min value to display on the left side scale. In case is not specified the min value from values list will be applied
+maxValue | Int | Max value to display on the left side scale. In case is not specified the max value from values list will be applied
 valueScaleWidthPx | Float | The width of the left side panel of values
 valueTextSize | Float | The text size of values on the left side panel
 valueTextColor | Int | The color (@ColorRes) of values on the left side panel
@@ -135,8 +135,8 @@ binding.barGraph.draw(
 #### 2.3 Params
 Property | Type | Description 
 --- | --- | --- 
-minValue | Int | Min value to display on scale. In case is not specified the min value from values list will be applied
-maxValue | Int | Max value to display on scale. In case is not specified the max value from values list will be applied
+minValue | Int | Min value to display on the left side scale. In case is not specified the min value from values list will be applied
+maxValue | Int | Max value to display on the left side scale. In case is not specified the max value from values list will be applied
 valueScaleWidthPx | Float | The width of the left side panel of values
 valueTextSize | Float | The text size of values on the left side panel
 valueTextColor | Int | The color (@ColorRes) of values on the left side panel
