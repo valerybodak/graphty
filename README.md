@@ -66,10 +66,17 @@ binding.weekGraph.draw(
 
 ```
 
+#### 1.3 Params
 Property | Type | Description 
 --- | --- | --- 
 minValue | Int | Min value to display on scale. In case is not specified the min value from values list will be applied
 maxValue | Int | Max value to display on scale. In case is not specified the max value from values list will be applied
+valueScaleWidthPx | Float | The width of the left side panel of values
+valueTextSize | Float | The text size of values on the left side panel
+valueTextColor | Int | The color (@ColorRes) of values on the left side panel
+titleScaleHeightPx | Float | The height of the bottom panel with titles
+titleTextSize | Float | The text size of titles on the bottom panel
+titleTextColor | Int | The color (@ColorRes) of titles on the bottom panel
 enableGuidelines | Boolean | Enable / Disable vertical guidelines
 lineWidth | Float | The width of graph's line
 lineColor | Int | The color (@ColorRes) of graph's line
@@ -78,14 +85,8 @@ guidelineColor | Int | The color (@ColorRes) of guideline
 nodesMode | NodesMode | 1. NodesMode.NONE - to disable nodes. 2. NodesMode.ALL - to display the node for each value, 3. NodesMode.MAX - to display the node only for the max value
 nodeRadiusPx | Float | The node's radius
 nodeFillColor | Int | The color (@ColorRes) of node
-valueScaleWidthPx | Float | The width of the left side panel of values
-valueTextSize | Float | The text size of values on the left side panel
-valueTextColor | Int | The color (@ColorRes) of values on the left side panel
 weekdayStart | Int | The first day of the week. Use the Calendar's contsants: Calendar.MONDAY, Calendar.SUNDAY etc.
-weekdayTextColor | Int | The color (@ColorRes) of the weekday title
-weekdayNameMap | Map<Int, String> | The mapping to display the weekday titles. The key is Calendar's contsant (Calendar.MONDAY, Calendar.TUESDAY etc.). The value is the weekday's text representation, for example, "M", "T", "W" etc.
-weekdayScaleHeightPx | Float | The height of the bottom panel of weekdays
-weekdayTextSize | Float | The text size of weekdays on the bottom panel  
+weekdayNameMap | Map<Int, String> | The mapping to display the weekday titles. The key is Calendar's contsant (Calendar.MONDAY, Calendar.TUESDAY etc.). The value is the weekday's text representation, for example, "M", "T", "W" etc. 
 
 ### 2. BarGraph
 
