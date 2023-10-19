@@ -53,4 +53,11 @@ weekdayStart | Int | The first day of the week. Use the Calendar's contsants: Ca
 weekdayTextColor | Int | The color (@ColorRes) of the weekday title
 weekdayNameMap | Map<Int, String> | The mapping to display the weekday titles. The key is Calendar's contsant (Calendar.MONDAY, Calendar.TUESDAY etc.). The value is the weekday's text representation, for example, "M", "T", "W" etc.
 weekdayScaleHeightPx | Float | The height of the bottom panel of weekdays
-weekdayTextSize | Float | The text size of weekdays on the bottom panel    
+weekdayTextSize | Float | The text size of weekdays on the bottom panel  
+
+### 2. BarGraph
+
+<img src="https://github.com/valerybodak/graphty/assets/26433088/76c4385b-2f11-460a-87e3-1a61694a85fe" width="30%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/4a20d02f-d48f-4bbb-809c-053d7a26b64b" width="30%"></img>
+<img src="https://github.com/valerybodak/graphty/assets/26433088/6ea85add-61cb-46a8-85d7-e3107d8cba90" width="30%"></img>
+
+
