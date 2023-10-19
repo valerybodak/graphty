@@ -1,4 +1,4 @@
-package com.vbodak.graphtylib.graph.area
+package com.vbodak.graphtylib.graph.bar
 
 data class Bar(
     val title: String = "",

@@ -3,8 +3,8 @@ package com.vbodak.graphty
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.vbodak.graphty.databinding.ActivityMainBinding
-import com.vbodak.graphtylib.graph.area.Bar
-import com.vbodak.graphtylib.graph.area.BarGraphParams
+import com.vbodak.graphtylib.graph.bar.Bar
+import com.vbodak.graphtylib.graph.bar.BarGraphParams
 
 class MainActivity : AppCompatActivity() {
 
