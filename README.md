@@ -110,6 +110,9 @@ valueTextColor | Int | The color (@ColorRes) of values on the left side panel
 titleScaleHeightPx | Float | The height of the bottom panel of titles
 titleTextSize | Float | The text size of titles on the bottom panel
 titleTextColor | Int | The color (@ColorRes) of titles on the bottom panel
+barColors | List<Int> | The colors (@ColorRes) of bars
+barWidthPx | Float | The bar's width
+barCornerRadiusPx | Float | The corner's radius of bar
 
 
 
