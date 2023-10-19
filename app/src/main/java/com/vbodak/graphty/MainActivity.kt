@@ -23,15 +23,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupGraph1() {
+        val params = BarGraphParams()
+        params.minValue = 5
+        params.maxValue = 100
+        params.valueScaleWidthPx = 82F
+        params.titleTextSize = 30F
+        params.barColors = listOf(R.color.cyan, R.color.pink, R.color.yellow_2)
+        params.barCornerRadiusPx = 6F
         binding.barGraph1.setup(
-            params = BarGraphParams(
-                minValue = 5,
-                maxValue = 100,
-                valueScaleWidthPx = 82F,
-                titleTextSize = 30F,
-                barColors = listOf(R.color.cyan, R.color.pink, R.color.yellow_2),
-                barCornerRadiusPx = 6F
-            )
+            params = params
         )
     }
 
@@ -52,16 +52,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupGraph2() {
+        val params = BarGraphParams()
+        params.minValue = 5
+        params.maxValue = 100
+        params.valueScaleWidthPx = 82F
+        params.titleTextSize = 30F
+        params.barColors = listOf(R.color.cyan, R.color.pink, R.color.yellow_2)
+        params.barCornerRadiusPx = 6F
+
         binding.barGraph2.setup(
-            params = BarGraphParams(
-                minValue = 5,
-                maxValue = 100,
-                valueScaleWidthPx = 82F,
-                valueTextColor = R.color.black,
-                titleTextColor = R.color.black,
-                titleTextSize = 30F,
-                barColors = listOf(R.color.black, R.color.white)
-            )
+            params = params
         )
     }
 
