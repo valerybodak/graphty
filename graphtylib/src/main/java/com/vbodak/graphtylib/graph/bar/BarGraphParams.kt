@@ -1,6 +1,5 @@
 package com.vbodak.graphtylib.graph.bar
 
-import androidx.annotation.ColorRes
 import com.vbodak.graphtylib.graph.base.BaseGraphParams
 
 class BarGraphParams : BaseGraphParams() {
