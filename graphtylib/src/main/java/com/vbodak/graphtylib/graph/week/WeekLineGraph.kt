@@ -6,7 +6,6 @@ import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.Path
-import android.text.TextPaint
 import android.util.AttributeSet
 import com.vbodak.graphtylib.graph.base.BaseGraph
 import com.vbodak.graphtylib.graph.base.BaseGraphParams
