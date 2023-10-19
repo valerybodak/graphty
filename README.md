@@ -28,12 +28,44 @@ implementation 'com.github.valerybodak:Graphty:1.0.0'
 
 <img src="https://github.com/valerybodak/graphty/assets/26433088/1b4f0d2b-f4d8-4367-b36a-f910f941d96f" width="30%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/f94abd1a-09da-4d3d-90b7-f56c759c1dd2" width="30%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/54cad739-db10-4300-85f4-647f2d2e1430" width="30%"></img>
 
+#### 1.1 Put WeekLineGraph to your xml layout
 ```Kotlin
 <com.vbodak.graphtylib.graph.week.WeekLineGraph
-        android:id="@+id/weekLineGraph"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    android:id="@+id/weekLineGraph"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
 ```
+#### 1.2 Setup WeekLineGraph and display it
+
+```Kotlin
+val params = WeekLineGraphParams()
+    params.minValue = 0
+    params.maxValue = 950
+    params.valueScaleWidthPx = 82F
+    params.titleTextSize = 30F
+    params.weekdayStart = Calendar.SUNDAY
+    params.weekdayNameMap = mapOf(
+        Calendar.SUNDAY to "S",
+        Calendar.MONDAY to "M",
+        Calendar.TUESDAY to "T",
+        Calendar.WEDNESDAY to "W",
+        Calendar.THURSDAY to "T",
+        Calendar.FRIDAY to "F",
+        Calendar.SATURDAY to "S"
+    )
+
+binding.weekGraph.setup(
+    params = params
+)
+
+...
+
+binding.weekGraph.draw(
+    values = listOf<Int>(32, 176, 33, 568, 7, 65, 43, 56)
+)
+
+```
+
 Property | Type | Description 
 --- | --- | --- 
 minValue | Int | Min value to display on scale. In case is not specified the min value from values list will be applied
