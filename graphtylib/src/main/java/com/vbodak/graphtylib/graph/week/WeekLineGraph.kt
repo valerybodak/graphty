@@ -8,44 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import com.vbodak.graphtylib.common.CommonConst
 import java.util.*
-
-enum class NodesMode {
-    NONE, ALL, MAX
-}
-
-data class Params(
-    /**
-     * Min value to display on scale
-     */
-    val minValue: Int = CommonConst.UNDEFINED,
-    /**
-     * Max value to display on scale
-     */
-    val maxValue: Int = CommonConst.UNDEFINED,
-    val enableGuidelines: Boolean = true,
-    val lineWidth: Float = 5F,
-    @ColorRes
-    val lineColor: Int = android.R.color.black,
-    val guidelineWidth: Float = 3F,
-    @ColorRes
-    val guidelineColor: Int = android.R.color.darker_gray,
-    val nodesMode: NodesMode = NodesMode.ALL,
-    val nodeRadiusPx: Float = 14F,
-    @ColorRes
-    val nodeFillColor: Int = android.R.color.white,
-    val valueScaleWidthPx: Float = 100F,
-    val valueTextSize: Float = 36F,
-    @ColorRes
-    val valueTextColor: Int = android.R.color.black,
-    val weekdayStart: Int = Calendar.MONDAY,
-    val weekdayNameMap: Map<Int, String> = emptyMap(),
-    val weekdayScaleHeightPx: Float = 70F,
-    val weekdayTextSize: Float = 36F,
-    @ColorRes
-    val weekdayTextColor: Int = android.R.color.black
-)
 
 class WeekLineGraph @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
@@ -56,7 +19,7 @@ class WeekLineGraph @JvmOverloads constructor(
         private const val WEEKDAYS_NUMBER = 7
     }
 
-    private var params: Params = Params()
+    private var params: WeekLineGraphParams = WeekLineGraphParams()
     private var values: List<Int> = emptyList()
 
     private val guidelinePaint: Paint by lazy {
@@ -75,7 +38,7 @@ class WeekLineGraph @JvmOverloads constructor(
         paint
     }
 
-    fun setup(params: Params) {
+    fun setup(params: WeekLineGraphParams) {
         this.params = params
     }
 
