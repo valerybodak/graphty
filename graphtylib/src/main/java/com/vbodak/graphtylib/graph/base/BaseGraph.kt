@@ -33,7 +33,7 @@ abstract class BaseGraph @JvmOverloads constructor(
 
     abstract fun getMinValue(): Int
     abstract fun getMaxValue(): Int
-    abstract fun getGraphParams(): BaseParams
+    abstract fun getGraphParams(): BaseGraphParams
     abstract fun getVerticalDivisionWidth(): Float
 
     protected fun getColor(@ColorRes colorResource: Int): Int {
@@ -124,5 +124,4 @@ abstract class BaseGraph @JvmOverloads constructor(
     protected fun getGraphBottom(): Float {
         return height - getGraphParams().titleScaleHeightPx - (getValueScaleTextHeight() / 2F)
     }
-
 }

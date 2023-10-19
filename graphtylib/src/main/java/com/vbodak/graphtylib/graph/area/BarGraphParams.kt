@@ -1,10 +1,9 @@
 package com.vbodak.graphtylib.graph.area
 
 import androidx.annotation.ColorRes
-import com.vbodak.graphtylib.common.CommonConst
-import com.vbodak.graphtylib.graph.base.BaseParams
+import com.vbodak.graphtylib.graph.base.BaseGraphParams
 
-class BarGraphParams : BaseParams() {
+class BarGraphParams : BaseGraphParams() {
     @ColorRes
     var barColors: List<Int> = listOf(
         android.R.color.holo_green_dark,

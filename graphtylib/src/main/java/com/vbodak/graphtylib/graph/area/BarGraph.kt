@@ -5,7 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import com.vbodak.graphtylib.graph.base.BaseGraph
-import com.vbodak.graphtylib.graph.base.BaseParams
+import com.vbodak.graphtylib.graph.base.BaseGraphParams
 
 class BarGraph @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
@@ -95,7 +95,7 @@ class BarGraph @JvmOverloads constructor(
         }
     }
 
-    override fun getGraphParams(): BaseParams {
+    override fun getGraphParams(): BaseGraphParams {
         return params
     }
 

@@ -3,7 +3,7 @@ package com.vbodak.graphtylib.graph.base
 import androidx.annotation.ColorRes
 import com.vbodak.graphtylib.common.CommonConst
 
-open class BaseParams {
+open class BaseGraphParams {
     /**
      * Min value to display on scale
      */
