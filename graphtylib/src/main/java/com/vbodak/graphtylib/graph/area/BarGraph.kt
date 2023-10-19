@@ -12,14 +12,14 @@ class BarGraph @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : BaseGraph(context, attrs, defStyleAttr) {
 
+    private var bars: List<Bar> = emptyList()
+    private var params: BarGraphParams = BarGraphParams()
+
     private val barPaint: Paint by lazy {
         val paint = Paint()
         paint.style = Paint.Style.FILL
         paint
     }
-
-    private var bars: List<Bar> = emptyList()
-    private var params: BarGraphParams = BarGraphParams()
 
     fun setup(params: BarGraphParams) {
         this.params = params
