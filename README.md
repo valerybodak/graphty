@@ -110,7 +110,7 @@ val params = BarGraphParams()
     params.maxValue = 100
     params.valueScaleWidthPx = 82F
     params.titleTextSize = 30F
-    params.barColors = listOf(R.color.cyan, R.color.pink, R.color.yellow_2)
+    params.barColors = listOf(R.color.cyan, R.color.pink, R.color.yellow)
     params.barCornerRadiusPx = 6F
 
 binding.barGraph.setup(
