@@ -107,7 +107,7 @@ maxValue | Int | Max value to display on scale. In case is not specified the max
 valueScaleWidthPx | Float | The width of the left side panel of values
 valueTextSize | Float | The text size of values on the left side panel
 valueTextColor | Int | The color (@ColorRes) of values on the left side panel
-titleScaleHeightPx | Float | The height of the bottom panel of titles
+titleScaleHeightPx | Float | The height of the bottom panel with titles
 titleTextSize | Float | The text size of titles on the bottom panel
 titleTextColor | Int | The color (@ColorRes) of titles on the bottom panel
 barColors | List<Int> | The colors (@ColorRes) of bars
