@@ -21,5 +21,5 @@ class WeekLineGraphParams : BaseGraphParams() {
     @ColorRes
     var nodeFillColor: Int = android.R.color.white
     var weekdayStart: Int = Calendar.MONDAY
-    val weekdayNameMap: Map<Int, String> = emptyMap()
+    var weekdayNameMap: Map<Int, String> = emptyMap()
 }
