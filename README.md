@@ -60,4 +60,56 @@ weekdayTextSize | Float | The text size of weekdays on the bottom panel
 <img src="https://github.com/valerybodak/graphty/assets/26433088/76c4385b-2f11-460a-87e3-1a61694a85fe" width="30%"></img> <img src="https://github.com/valerybodak/graphty/assets/26433088/4a20d02f-d48f-4bbb-809c-053d7a26b64b" width="30%"></img>
 <img src="https://github.com/valerybodak/graphty/assets/26433088/6ea85add-61cb-46a8-85d7-e3107d8cba90" width="30%"></img>
 
+#### 2.1 Put BarGraph to your xml layout
+
+```Kotlin
+<com.vbodak.graphtylib.graph.bar.BarGraph
+    android:id="@+id/barGraph"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+```
+
+#### 2.2 Setup BarGraph and display it
+
+```Kotlin
+val params = BarGraphParams()
+    params.minValue = 5
+    params.maxValue = 100
+    params.valueScaleWidthPx = 82F
+    params.titleTextSize = 30F
+    params.barColors = listOf(R.color.cyan, R.color.pink, R.color.yellow_2)
+    params.barCornerRadiusPx = 6F
+
+binding.barGraph.setup(
+    params = params
+)
+
+...
+
+binding.barGraph.draw(
+    bars = listOf(
+        Bar(title = "12/10", values = listOf(80, 10, 98)),
+        Bar(title = "13/10", values = listOf(65, 87, 76)),
+        Bar(title = "14/10", values = listOf(69, 32, 15)),
+        Bar(title = "15/10", values = listOf(46, 15, 23)),
+        Bar(title = "16/10", values = listOf(96, 87, 78)),
+        Bar(title = "17/10", values = listOf(78, 76, 54)),
+        Bar(title = "18/10", values = listOf(70, 60, 43))
+    )
+)
+```
+
+#### 2.3 Params
+Property | Type | Description 
+--- | --- | --- 
+minValue | Int | Min value to display on scale. In case is not specified the min value from values list will be applied
+maxValue | Int | Max value to display on scale. In case is not specified the max value from values list will be applied
+valueScaleWidthPx | Float | The width of the left side panel of values
+valueTextSize | Float | The text size of values on the left side panel
+valueTextColor | Int | The color (@ColorRes) of values on the left side panel
+titleScaleHeightPx | Float | The height of the bottom panel of titles
+titleTextSize | Float | The text size of titles on the bottom panel
+titleTextColor | Int | The color (@ColorRes) of titles on the bottom panel
+
+
 
