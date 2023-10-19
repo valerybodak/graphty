@@ -96,7 +96,7 @@ abstract class BaseGraph @JvmOverloads constructor(
         }
     }
 
-    protected fun getValueTextBound(value: Int): Rect {
+    private fun getValueTextBound(value: Int): Rect {
         val valuePaint = valueTextPaint
         val textBound = Rect()
         val valueTitle = value.toString()
