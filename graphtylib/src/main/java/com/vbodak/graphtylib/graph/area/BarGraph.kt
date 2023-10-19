@@ -27,7 +27,7 @@ class BarGraph @JvmOverloads constructor(
         paint
     }
 
-    private val  titlePaint: Paint by lazy {
+    private val titlePaint: Paint by lazy {
         val paint = TextPaint()
         paint.isAntiAlias = true
         paint.textSize = params.titleTextSize
@@ -55,9 +55,9 @@ class BarGraph @JvmOverloads constructor(
         }
     }
 
-    private fun drawBars(canvas: Canvas){
+    private fun drawBars(canvas: Canvas) {
         val divisionWidth = getVerticalDivisionWidth()
-        for(barIndex in bars.indices) {
+        for (barIndex in bars.indices) {
             val bar = bars[barIndex]
             for (valueIndex in bar.values.indices) {
                 if (params.barColors.size >= bar.values.size) {
@@ -188,6 +188,7 @@ class BarGraph @JvmOverloads constructor(
             params.maxValue
         }
     }
+
     private fun getGraphHeight(): Float {
         return getGraphBottom() - getGraphTop()
     }
