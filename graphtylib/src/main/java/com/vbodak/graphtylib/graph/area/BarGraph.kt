@@ -16,7 +16,22 @@ class BarGraph @JvmOverloads constructor(
     private val barPaint: Paint by lazy {
         val paint = Paint()
         paint.style = Paint.Style.FILL
-        //paint.shader = LinearGradient(0f, 0f, 0f, height.toFloat(), getColor(color), getColor(color), Shader.TileMode.MIRROR)
+        paint
+    }
+
+    private val valueTextPaint: TextPaint by lazy {
+        val paint = TextPaint()
+        paint.isAntiAlias = true
+        paint.textSize = params.valueTextSize
+        paint.color = getColor(params.valueTextColor)
+        paint
+    }
+
+    private val  titlePaint: Paint by lazy {
+        val paint = TextPaint()
+        paint.isAntiAlias = true
+        paint.textSize = params.titleTextSize
+        paint.color = getColor(params.titleTextColor)
         paint
     }
 
@@ -38,17 +53,6 @@ class BarGraph @JvmOverloads constructor(
             drawScaleValues(canvas)
             drawScaleTitles(canvas)
         }
-    }
-
-    private fun getBarPoints(bar: Bar, pointCallback: (index: Int, value: Int, barLeft: Float, barTop: Float) -> Unit) {
-        /*val divisionWidth = getVerticalDivisionWidth()
-        for (index in bar.values.indices) {
-            val value = bar.values[index]
-            val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
-            val barLeft = divisionLeft + (divisionWidth / 2F) - params.barWidthPx / 2F
-            val barTop = getBarTop(value)
-            canvas.drawRoundRect()
-        }*/
     }
 
     private fun drawBars(canvas: Canvas){
@@ -98,7 +102,7 @@ class BarGraph @JvmOverloads constructor(
     }
 
     private fun drawValue(canvas: Canvas, valueTop: Float, value: Int) {
-        val valuePaint = getValueTextPaint()
+        val valuePaint = valueTextPaint
         val textBound = Rect()
         val valueTitle = value.toString()
         valuePaint.getTextBounds(valueTitle, 0, valueTitle.length, textBound)
@@ -113,7 +117,7 @@ class BarGraph @JvmOverloads constructor(
     }
 
     private fun getValueTextBound(value: Int): Rect {
-        val valuePaint = getValueTextPaint()
+        val valuePaint = valueTextPaint
         val textBound = Rect()
         val valueTitle = value.toString()
         valuePaint.getTextBounds(valueTitle, 0, valueTitle.length, textBound)
@@ -125,21 +129,20 @@ class BarGraph @JvmOverloads constructor(
         for (index in bars.indices) {
             val divisionLeft = index * divisionWidth + params.valueScaleWidthPx
 
-            val weekdayPaint = getWeekdayPaint()
-            val textBoundWeekday = Rect()
+            val textBoundTitle = Rect()
             val valueTitle = bars[index].title
-            weekdayPaint.getTextBounds(valueTitle, 0, valueTitle.length, textBoundWeekday)
+            titlePaint.getTextBounds(valueTitle, 0, valueTitle.length, textBoundTitle)
 
-            val weekdayTop = height - (params.titleScaleHeightPx / 2) + (textBoundWeekday.height() / 2)
+            val titleTop = height - (params.titleScaleHeightPx / 2) + (textBoundTitle.height() / 2)
 
-            val weekdayLeft =
-                divisionLeft + (divisionWidth / 2) - (textBoundWeekday.width() / 2)
+            val titleLeft =
+                divisionLeft + (divisionWidth / 2) - (textBoundTitle.width() / 2)
 
             canvas.drawText(
                 valueTitle,
-                weekdayLeft,
-                weekdayTop,
-                weekdayPaint
+                titleLeft,
+                titleTop,
+                titlePaint
             )
         }
     }
@@ -162,35 +165,10 @@ class BarGraph @JvmOverloads constructor(
     private fun getValueScaleTextHeight(): Int {
         //It can be any value because we use it only to measure text's container height
         val title = "0"
-        val textPaint = getValueTextPaint()
+        val textPaint = valueTextPaint
         val textBound = Rect()
         textPaint.getTextBounds(title, 0, title.length, textBound)
         return textBound.height()
-    }
-
-    /*private fun getAreaPaint(@ColorRes color: Int): Paint {
-        val paint = Paint(ANTI_ALIAS_FLAG)
-        paint.style = Paint.Style.FILL
-        paint.shader = LinearGradient(0f, 0f, 0f, height.toFloat(), getColor(color), Color., Shader.TileMode.MIRROR)
-        paint.strokeWidth = 6F
-        paint.color = getColor(color)
-        return paint
-    }*/
-
-    private fun getWeekdayPaint(): Paint {
-        val paint = TextPaint()
-        paint.isAntiAlias = true
-        paint.textSize = params.titleTextSize
-        paint.color = getColor(params.titleTextColor)
-        return paint
-    }
-
-    private fun getValueTextPaint(): TextPaint {
-        val textPaint = TextPaint()
-        textPaint.isAntiAlias = true
-        textPaint.textSize = params.valueTextSize
-        textPaint.color = getColor(params.valueTextColor)
-        return textPaint
     }
 
     private fun getMinValue(): Int {
