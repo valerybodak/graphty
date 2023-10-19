@@ -172,7 +172,7 @@ class BarGraph @JvmOverloads constructor(
     }
 
     private fun getMinValue(): Int {
-        val min = bars.map { it.values.min() }.min()
+        val min = bars.minOfOrNull { it.values.min() } ?: 0
         return if (params.minValue >= min) {
             min
         } else {
@@ -181,7 +181,7 @@ class BarGraph @JvmOverloads constructor(
     }
 
     private fun getMaxValue(): Int {
-        val max = bars.map { it.values.max() }.max()
+        val max = bars.maxOfOrNull { it.values.max() } ?: 0
         return if (params.maxValue <= max) {
             max
         } else {
