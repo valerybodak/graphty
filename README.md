@@ -19,7 +19,7 @@ allprojects {
 ### Step 2. Add the dependency
 Add the following dependency in your app build.gradle:
 ```Kotlin
-implementation 'com.github.valerybodak:Graphty:1.0.0'
+implementation 'com.github.valerybodak:Graphty:1.0.7'
 ```
 
 ## Usage
