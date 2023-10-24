@@ -77,9 +77,9 @@ valueTextColor | Int | The color (@ColorRes) of values on the left side panel
 titleScaleHeightPx | Float | The height of the bottom panel with titles
 titleTextSize | Float | The text size of titles on the bottom panel
 titleTextColor | Int | The color (@ColorRes) of titles on the bottom panel
-enableGuidelines | Boolean | Enable / Disable vertical guidelines
 lineWidth | Float | The width of graph's line
 lineColor | Int | The color (@ColorRes) of graph's line
+enableGuidelines | Boolean | Enable / Disable vertical guidelines
 guidelineWidth | Float | The width of guideline
 guidelineColor | Int | The color (@ColorRes) of guideline
 nodesMode | NodesMode | 1. NodesMode.NONE - to disable nodes. 2. NodesMode.ALL - to display the node for each value, 3. NodesMode.MAX - to display the node only for the max value
